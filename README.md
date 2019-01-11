@@ -1,7 +1,11 @@
-**FingerStyle Guitar Tabs**
+
+
+## FingerStyle Guitar Tabs
+
+
 FingerStyle is an iOS app to help beginner to experienced guitarists concur any song. 
 
-**Features and Screen Casts**
+## Features and Screen Casts
 
 **Discover your next song to concur!**
 
