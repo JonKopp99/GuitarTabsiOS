@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 class CreateSongVC: UIViewController, UITextFieldDelegate {
     var songName = String()
     var artistName = String()
@@ -42,20 +42,29 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         navView.isOpaque = true
        
         self.view.addSubview(navView)
+        
+        var theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+        if(difficulty == "Intermediate")
+        {
+            theColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+        }else if(difficulty == "Expert")
+        {
+            theColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+        }else{
+            theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+        }
         let song = NSMutableAttributedString(string: ("\"" + (songName) + "\""), attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 35)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
-        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 32)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
+        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 32)!, NSAttributedString.Key.foregroundColor : theColor])
         let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 30)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
         song.append(splitter)
         song.append(artist)
         
-        let label = UILabel(frame: CGRect(x:0, y: navView.bounds.height/2-10, width: navView.bounds.width, height: 50))
+        let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height/2-10, width: navView.bounds.width-60, height: 50))
         label.attributedText = song
-        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.font = UIFont(name: "AvenirNextCondensed-HeavyItalic", size: 35.0)
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         
-        let backbutton = UIButton(frame: CGRect(x: 10, y: label.frame.minY + 12.5, width: 25, height: 25))
+        let backbutton = UIButton(frame: CGRect(x: 5, y: label.frame.minY + 12.5, width: 25, height: 25))
         backbutton.setImage(#imageLiteral(resourceName: "back_arrow"), for: .normal)
         backbutton.addTarget(self, action:#selector(self.backPressed), for: .touchUpInside)
         navView.addSubview(backbutton)
@@ -169,16 +178,35 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         
         textViews()
         
-        let nexttabbutton = UIButton(frame: CGRect(x: eLine.frame.maxY, y: eLine.frame.maxY + 40, width: 35, height: 35))
-        nexttabbutton.setImage(#imageLiteral(resourceName: "icons8-down-right-filled-50"), for: .normal)
-        nexttabbutton.addTarget(self, action:#selector(self.nexttabPressed), for: .touchUpInside)
-        self.view.addSubview(nexttabbutton)
+        let doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
+        doneButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        doneButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        doneButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        doneButton.setTitle("Done", for: .normal)
+        doneButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        doneButton.addTarget(self, action:#selector(self.donePressed), for: .touchUpInside)
+        doneButton.layer.cornerRadius = 20
+        doneButton.layer.borderWidth = 2
+        doneButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        self.view.addSubview(doneButton)
     }
     
-    @objc func nexttabPressed()
+    @objc func donePressed()
     {
-        addNotes()
-        tabs.append(currentTab)
+        let controller = CreateViewDone()
+        controller.artistName = artistName
+        controller.songName = songName
+        controller.difficulty = difficulty
+        //controller.theSong = tabs
+        controller.fullSong = currentTab
+        print(currentTab.theE)
+        self.present(controller, animated: false, completion: nil)
+    }
+    
+    func nextTab()
+    {
+        print(currentTab.theE)
+        print(currentTab.e)
         currentNote = 0
         eField.removeFromSuperview()
         aField.removeFromSuperview()
@@ -187,8 +215,13 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         bField.removeFromSuperview()
         eeField.removeFromSuperview()
         nextbutton.removeFromSuperview()
+        e.text = ""
+        a.text = ""
+        d.text = ""
+        g.text = ""
+        b.text = ""
+        ee.text = ""
         textViews()
-        currentTab.e = ""
         
         
     }
@@ -219,7 +252,116 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         e.adjustsFontSizeToFitWidth = true
         e.sizeToFit()
         self.eLine.addSubview(e)
+        
+        if(aField.text?.count == 0)
+        {
+            currentTab.a.append(empty)
+            currentTab.theA.append("  ")
+            a.text = a.text! + ("  " + spacingBetweenNotes())
+        }else if(aField.text?.count == 1)
+        {
+            currentTab.a.append(aField.text! + oneOnly)
+            currentTab.theA.append(aField.text! + " ")
+            a.text = a.text! + (aField.text! + " " + spacingBetweenNotes())
+        }else
+        {
+            currentTab.a.append(eField.text! + "-")
+            currentTab.theA.append(aField.text!)
+            a.text = a.text! + (aField.text! + spacingBetweenNotes())
+        }
+        a.removeFromSuperview()
+        a.adjustsFontSizeToFitWidth = true
+        a.sizeToFit()
+        self.aLine.addSubview(a)
+        
+        if(dField.text?.count == 0)
+        {
+            currentTab.d.append(empty)
+            currentTab.theD.append("  ")
+            d.text = d.text! + ("  " + spacingBetweenNotes())
+        }else if(dField.text?.count == 1)
+        {
+            currentTab.d.append(dField.text! + oneOnly)
+            currentTab.theD.append(dField.text! + " ")
+            d.text = d.text! + (dField.text! + " " + spacingBetweenNotes())
+        }else
+        {
+            currentTab.d.append(dField.text! + "-")
+            currentTab.theD.append(dField.text!)
+            d.text = d.text! + (dField.text! + spacingBetweenNotes())
+        }
+        d.removeFromSuperview()
+        d.adjustsFontSizeToFitWidth = true
+        d.sizeToFit()
+        self.dLine.addSubview(d)
+        
+        if(gField.text?.count == 0)
+        {
+            currentTab.g.append(empty)
+            currentTab.theG.append("  ")
+            g.text = g.text! + ("  " + spacingBetweenNotes())
+        }else if(gField.text?.count == 1)
+        {
+            currentTab.g.append(gField.text! + oneOnly)
+            currentTab.theG.append(gField.text! + " ")
+            g.text = g.text! + (gField.text! + " " + spacingBetweenNotes())
+        }else
+        {
+            currentTab.g.append(gField.text! + "-")
+            currentTab.theG.append(gField.text!)
+            g.text = g.text! + (gField.text! + spacingBetweenNotes())
+        }
+        g.removeFromSuperview()
+        g.adjustsFontSizeToFitWidth = true
+        g.sizeToFit()
+        self.gLine.addSubview(g)
+        
+        if(bField.text?.count == 0)
+        {
+            currentTab.b.append(empty)
+            currentTab.theB.append("  ")
+            b.text = b.text! + ("  " + spacingBetweenNotes())
+        }else if(bField.text?.count == 1)
+        {
+            currentTab.b.append(bField.text! + oneOnly)
+            currentTab.theB.append(bField.text! + " ")
+            b.text = b.text! + (bField.text! + " " + spacingBetweenNotes())
+        }else
+        {
+            currentTab.b.append(bField.text! + "-")
+            currentTab.theB.append(bField.text!)
+            b.text = b.text! + (bField.text! + spacingBetweenNotes())
+        }
+        b.removeFromSuperview()
+        b.adjustsFontSizeToFitWidth = true
+        b.sizeToFit()
+        self.bLine.addSubview(b)
+        
+        if(eeField.text?.count == 0)
+        {
+            currentTab.ee.append(empty)
+            currentTab.theEE.append("  ")
+            ee.text = ee.text! + ("  " + spacingBetweenNotes())
+        }else if(eeField.text?.count == 1)
+        {
+            currentTab.ee.append(eeField.text! + oneOnly)
+            currentTab.theEE.append(eeField.text! + " ")
+            ee.text = ee.text! + (eeField.text! + " " + spacingBetweenNotes())
+        }else
+        {
+            currentTab.ee.append(eeField.text! + "-")
+            currentTab.theEE.append(eeField.text!)
+            ee.text = ee.text! + (eeField.text! + spacingBetweenNotes())
+        }
+        ee.removeFromSuperview()
+        ee.adjustsFontSizeToFitWidth = true
+        ee.sizeToFit()
+        self.eeLine.addSubview(ee)
     }
+    
+    
+    
+ 
     
     func spacingBetweenNotes()->String
     {
@@ -235,38 +377,45 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         eeField = layoutTextViews()
         let thex = eLine.frame.minX + (CGFloat(currentNote) * (self.view.bounds.width / CGFloat(getNotesPerLine())) + 17.5)
         
-        eeField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
-        bField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
-        gField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
-        dField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
-        aField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
-        eField.frame = CGRect(x: thex, y: -17.5, width: 35, height: 35)
+        eeField.frame = CGRect(x: thex + 10, y: eeLine.frame.midY - 17.5, width: 35, height: 35)
+        bField.frame = CGRect(x: thex + 10, y: bLine.frame.midY - 17.5, width: 35, height: 35)
+        gField.frame = CGRect(x: thex + 10, y: gLine.frame.midY - 17.5, width: 35, height: 35)
+        dField.frame = CGRect(x: thex + 10, y: dLine.frame.midY - 17.5, width: 35, height: 35)
+        aField.frame = CGRect(x: thex + 10, y: aLine.frame.midY - 17.5, width: 35, height: 35)
+        eField.frame = CGRect(x: thex + 10, y: eLine.frame.midY - 17.5, width: 35, height: 35)
         
-        eeLine.addSubview(eeField)
-        bLine.addSubview(bField)
-        gLine.addSubview(gField)
-        dLine.addSubview(dField)
-        aLine.addSubview(aField)
-        eLine.addSubview(eField)
-        
-        nextbutton = UIButton(frame: CGRect(x: eField.frame.minX + 15, y: eLine.frame.maxY + 15, width: 25, height: 25))
-        nextbutton.setImage(#imageLiteral(resourceName: "icons8-arrow-filled-50"), for: .normal)
-        nextbutton.addTarget(self, action:#selector(self.nextPressed), for: .touchUpInside)
-        self.view.addSubview(nextbutton)
+        if(eeField.frame.maxX <= self.view.bounds.width)
+        {
+            self.view.addSubview(eeField)
+            self.view.addSubview(bField)
+            self.view.addSubview(gField)
+            self.view.addSubview(dField)
+            self.view.addSubview(aField)
+            self.view.addSubview(eField)
+            
+            nextbutton = UIButton(frame: CGRect(x: eField.frame.minX + 5, y: eLine.frame.maxY + 15, width: 25, height: 25))
+            nextbutton.setImage(#imageLiteral(resourceName: "icons8-arrow-filled-50"), for: .normal)
+            nextbutton.addTarget(self, action:#selector(self.nextPressed), for: .touchUpInside)
+            self.view.addSubview(nextbutton)
+        }else{
+            nextTab()
+        }
     }
     func layoutTextViews() ->UITextField
     {
         let theTextField = UITextField()
         theTextField.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         theTextField.isEnabled = true
-        theTextField.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
-        theTextField.autocorrectionType = UITextAutocorrectionType.yes
+        theTextField.font = UIFont(name: "CourierNewPS-BoldMT", size: 18)
         theTextField.keyboardType = UIKeyboardType.numberPad
         theTextField.returnKeyType = UIReturnKeyType.done
         theTextField.clearButtonMode = UITextField.ViewMode.whileEditing;
         theTextField.contentVerticalAlignment = .center
+        theTextField.contentHorizontalAlignment = .right
+        theTextField.keyboardAppearance = .light
+        theTextField.clearButtonMode = .never
         theTextField.delegate = self
-        theTextField.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        theTextField.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         theTextField.layer.cornerRadius = 5
         theTextField.layer.borderWidth = 2
         theTextField.layer.borderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
@@ -276,6 +425,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     }
     @objc func nextPressed()
     {
+
         if(currentNote<getNotesPerLine() - 1)
         {
             addNotes()
@@ -300,8 +450,14 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        
+
         super.touchesBegan(touches,  with: event)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
     }
     
     func getNotesPerLine() -> Int

@@ -24,6 +24,17 @@ class savedCellTableViewCell: UITableViewCell{
         nameOfSong.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         nameOfArtist.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         difficulty.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        var theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+        if(difficulty.text == "Intermediate")
+        {
+            theColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+        }else if(difficulty.text == "Expert")
+        {
+            theColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+        }else{
+            theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+        }
+        difficulty.textColor = theColor
         
         nameOfSong.font = UIFont(name: "AvenirNext-BoldItalic", size: 25)
         nameOfArtist.font = UIFont(name: "Avenir-Book", size: 19)

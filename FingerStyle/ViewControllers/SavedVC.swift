@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate{
     
@@ -17,6 +18,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         loadTempSongs()
+        loadSongs()
         TabBarVC.currentSelected = "Saved"
         self.view.backgroundColor = .white
         print("Saved VC")
@@ -88,7 +90,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return songs.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell") as! savedCellTableViewCell
@@ -106,6 +108,8 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         cell.nameOfSong.adjustsFontSizeToFitWidth = true
         cell.difficulty.adjustsFontSizeToFitWidth = true
         
+       
+        
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         return cell
         
@@ -117,77 +121,63 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selected row at IndexPath: ", indexPath)
-        let controller = SongVC()
-        controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
-        controller.artistName = (songs[indexPath.row].nameOfArtist)
-        controller.difficulty = (songs[indexPath.row].difficulty)
-        self.present(controller, animated: false, completion: nil)
+        if(tableView.cellForRow(at: indexPath) != nil)
+        {
+            let controller = SongVC()
+            controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
+            controller.artistName = (songs[indexPath.row].nameOfArtist)
+            controller.difficulty = (songs[indexPath.row].difficulty)
+            controller.theUid = (songs[indexPath.row].uid)
+            controller.fullSong = (songs[indexPath.row].songTab)
+            self.present(controller, animated: false, completion: nil)
+        }
     }
     
     func loadTempSongs()
     {
-        let s = SongObj()
-        //0
-        s.nameOfSong = "All Star"
-        s.nameOfArtist = "Smash Mouth"
-        s.difficulty = "Expert"
-        songs.append(s)
-        //1
-        let s1 = SongObj()
-        s1.nameOfSong = "Toxic"
-        s1.nameOfArtist = "Britney Spears"
-        s1.difficulty = "Expert"
-        songs.append(s1)
-        //2
-        let s2 = SongObj()
-        s2.nameOfSong = "Shewolf"
-        s2.nameOfArtist = "Shakira"
-        s2.difficulty = "Intermediate"
-        songs.append(s2)
-        //3
-        let s3 = SongObj()
-        s3.nameOfSong = "Pokemon Theme"
-        s3.nameOfArtist = "Pokemon Company"
-        s3.difficulty = "Beginner"
-        songs.append(s3)
-        //4
-        let s4 = SongObj()
-        s4.nameOfSong = "Goofey Goober Rock"
-        s4.nameOfArtist = "Spongebob"
-        s4.difficulty = "Expert"
-        songs.append(s4)
-        //5
-        let s5 = SongObj()
-        s5.nameOfSong = "Gary Come Home"
-        s5.nameOfArtist = "Spongebob"
-        s5.difficulty = "Expert"
-        songs.append(s5)
         
-        //6
-        let s6 = SongObj()
-        s6.nameOfSong = "Ripped My Pants"
-        s6.nameOfArtist = "Spongebob"
-        s6.difficulty = "Expert"
-        songs.append(s6)
-        //7
-        let s7 = SongObj()
-        s7.nameOfSong = "Random Song"
-        s7.nameOfArtist = "Random Artist"
-        s7.difficulty = "Intermediate"
-        songs.append(s7)
-        //8
-        let s8 = SongObj()
-        s8.nameOfSong = "SwoleJon's Biceps"
-        s8.nameOfArtist = "Arnold"
-        s8.difficulty = "Expert"
-        songs.append(s8)
-        //9
-        let s9 = SongObj()
-        s9.nameOfSong = "I Gave You All"
-        s9.nameOfArtist = "Mumford and Sons"
-        s9.difficulty = "Intermediate"
-        songs.append(s9)
-        tableView.reloadData()
+    }
+    
+    func loadSongs()
+    {
+        print("LoadSongsCalled")
+        let userDefaults = Foundation.UserDefaults.standard
+        
+        let ref = Database.database().reference().child("Songs")
+        let thesongs = (userDefaults.stringArray(forKey: "Saved") ?? [String]())
+        print(thesongs)
+        //for i in thesongs{
+            //ref.child(i)
+                ref.observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    if !snapshot.exists() {
+                        print("WELL FUCK")
+                        return }
+                    let test = snapshot.value as! [String : AnyObject]
+                    //print(test)
+                    for(_, value) in test
+                    {
+                        print(value)
+                        let theValue = value as! [String : String]
+                        let song = SongObj()
+                        song.nameOfArtist = theValue["theArtist"]
+                        song.nameOfSong = theValue["theSongName"]
+                        song.difficulty = theValue["theDifficulty"]
+                        song.uid = theValue["theUid"]
+                        
+                        song.songTab.e = theValue["e"]
+                        song.songTab.a = theValue["a"]
+                        song.songTab.d = theValue["d"]
+                        song.songTab.g = theValue["g"]
+                        song.songTab.b = theValue["b"]
+                        song.songTab.ee = theValue["ee"]
+                    
+                        self.songs.append(song)
+                    }
+                    self.tableView.reloadData()
+                })
+            
+        //}
     }
     
 }

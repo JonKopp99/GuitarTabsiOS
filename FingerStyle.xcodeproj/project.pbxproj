@@ -24,9 +24,13 @@
 		AB4668FA21E5B81C00C3BA55 /* SongObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668F921E5B81C00C3BA55 /* SongObj.swift */; };
 		AB98E5B021E67B1A00806C88 /* SongTabObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5AF21E67B1A00806C88 /* SongTabObj.swift */; };
 		AB98E5B221E71CF100806C88 /* CreateSongVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5B121E71CF100806C88 /* CreateSongVC.swift */; };
+		AB98E5B421E7FAF600806C88 /* CreateViewDone.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5B321E7FAF600806C88 /* CreateViewDone.swift */; };
+		AB98E5B921E87C1400806C88 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB98E5B821E87C1400806C88 /* GoogleService-Info.plist */; };
+		D9E4D99C2CBE8F56C99A5A59 /* Pods_FingerStyle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B144BE20C48746AF11B42D /* Pods_FingerStyle.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		35B144BE20C48746AF11B42D /* Pods_FingerStyle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FingerStyle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4668CE21E45A9B00C3BA55 /* FingerStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4668D121E45A9B00C3BA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB4668D321E45A9B00C3BA55 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
@@ -46,6 +50,10 @@
 		AB4668F921E5B81C00C3BA55 /* SongObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongObj.swift; sourceTree = "<group>"; };
 		AB98E5AF21E67B1A00806C88 /* SongTabObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTabObj.swift; sourceTree = "<group>"; };
 		AB98E5B121E71CF100806C88 /* CreateSongVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSongVC.swift; sourceTree = "<group>"; };
+		AB98E5B321E7FAF600806C88 /* CreateViewDone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewDone.swift; sourceTree = "<group>"; };
+		AB98E5B821E87C1400806C88 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AF0E196511784687F14BC0A7 /* Pods-FingerStyle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerStyle.release.xcconfig"; path = "Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle.release.xcconfig"; sourceTree = "<group>"; };
+		BD86560941BDCC273518DC7F /* Pods-FingerStyle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerStyle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,17 +61,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9E4D99C2CBE8F56C99A5A59 /* Pods_FingerStyle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35F8F383FFEA61060BCD99EB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BD86560941BDCC273518DC7F /* Pods-FingerStyle.debug.xcconfig */,
+				AF0E196511784687F14BC0A7 /* Pods-FingerStyle.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AB4668C521E45A9B00C3BA55 = {
 			isa = PBXGroup;
 			children = (
 				AB4668D021E45A9B00C3BA55 /* FingerStyle */,
 				AB4668CF21E45A9B00C3BA55 /* Products */,
+				35F8F383FFEA61060BCD99EB /* Pods */,
+				BF13A47069FFFDF4EC7C8987 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +106,7 @@
 				AB4668D521E45A9B00C3BA55 /* Main.storyboard */,
 				AB4668DD21E45A9C00C3BA55 /* LaunchScreen.storyboard */,
 				AB4668E021E45A9C00C3BA55 /* Info.plist */,
+				AB98E5B821E87C1400806C88 /* GoogleService-Info.plist */,
 				AB4668D821E45A9B00C3BA55 /* FingerStyle.xcdatamodeld */,
 				AB4668EF21E4829800C3BA55 /* TODO */,
 			);
@@ -101,6 +122,7 @@
 				AB4668F421E5726200C3BA55 /* SongVC.swift */,
 				AB4668EA21E4744500C3BA55 /* CreateVC.swift */,
 				AB98E5B121E71CF100806C88 /* CreateSongVC.swift */,
+				AB98E5B321E7FAF600806C88 /* CreateViewDone.swift */,
 				AB4668EC21E4746500C3BA55 /* SettingsVC.swift */,
 			);
 			path = ViewControllers;
@@ -124,6 +146,14 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
+		BF13A47069FFFDF4EC7C8987 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				35B144BE20C48746AF11B42D /* Pods_FingerStyle.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,9 +161,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB4668E321E45A9C00C3BA55 /* Build configuration list for PBXNativeTarget "FingerStyle" */;
 			buildPhases = (
+				DBAE96D241763FD972E14170 /* [CP] Check Pods Manifest.lock */,
 				AB4668CA21E45A9B00C3BA55 /* Sources */,
 				AB4668CB21E45A9B00C3BA55 /* Frameworks */,
 				AB4668CC21E45A9B00C3BA55 /* Resources */,
+				A89F9B9E17DE350D2C6761C4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -184,6 +216,7 @@
 			files = (
 				AB4668DF21E45A9C00C3BA55 /* LaunchScreen.storyboard in Resources */,
 				AB4668DC21E45A9C00C3BA55 /* Assets.xcassets in Resources */,
+				AB98E5B921E87C1400806C88 /* GoogleService-Info.plist in Resources */,
 				AB4668F021E4829800C3BA55 /* TODO in Resources */,
 				AB4668D721E45A9B00C3BA55 /* Main.storyboard in Resources */,
 			);
@@ -191,11 +224,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A89F9B9E17DE350D2C6761C4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DBAE96D241763FD972E14170 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FingerStyle-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB4668CA21E45A9B00C3BA55 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB98E5B421E7FAF600806C88 /* CreateViewDone.swift in Sources */,
 				AB98E5B021E67B1A00806C88 /* SongTabObj.swift in Sources */,
 				AB4668E921E4743000C3BA55 /* SavedVC.swift in Sources */,
 				AB4668DA21E45A9B00C3BA55 /* FingerStyle.xcdatamodeld in Sources */,
@@ -352,6 +435,7 @@
 		};
 		AB4668E421E45A9C00C3BA55 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD86560941BDCC273518DC7F /* Pods-FingerStyle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -371,6 +455,7 @@
 		};
 		AB4668E521E45A9C00C3BA55 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF0E196511784687F14BC0A7 /* Pods-FingerStyle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

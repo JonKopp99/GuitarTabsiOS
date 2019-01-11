@@ -80,7 +80,7 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         
         begButton = UIButton(frame: CGRect(x: 10, y: ArtistTextField.frame.maxY + 30, width: view.bounds.width * 0.3, height: 50))
         begButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        begButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        begButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 20.0)
         begButton.titleLabel?.adjustsFontSizeToFitWidth = true
         begButton.setTitle("Beginner", for: .normal)
         begButton.setTitleColor(#colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1), for: .normal)
@@ -92,7 +92,7 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         
         intButton = UIButton(frame: CGRect(x: begButton.frame.maxX + 10, y: ArtistTextField.frame.maxY + 30, width: view.bounds.width * 0.3, height: 50))
         intButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        intButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        intButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 20.0)
         intButton.titleLabel?.adjustsFontSizeToFitWidth = true
         intButton.setTitle("Intermediate", for: .normal)
         intButton.setTitleColor(#colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1), for: .normal)
@@ -104,7 +104,7 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         
         expButton = UIButton(frame: CGRect(x: intButton.frame.maxX + 10, y: ArtistTextField.frame.maxY + 30, width: view.bounds.width * 0.3, height: 50))
         expButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        expButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        expButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 20.0)
         expButton.titleLabel?.adjustsFontSizeToFitWidth = true
         expButton.setTitle("Expert", for: .normal)
         expButton.setTitleColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), for: .normal)
