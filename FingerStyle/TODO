@@ -84,3 +84,21 @@ i.b = (i.b + i.theB[i.theE.count-1])
 i.ee = (i.ee + i.theEE[i.theE.count-1])
 }
 }
+when creating song be able to view it as you make it!
+better UI for creating song.
+
+saved songs go to core data.
+a storage of keys
+each song has its own key.
+
+location's
+0 = e
+1 = a
+2 = d
+3 = g
+4 = b
+5 = ee
+6 = theSong
+7 = theArtist
+8 = theDifficulty
+9 = anything else

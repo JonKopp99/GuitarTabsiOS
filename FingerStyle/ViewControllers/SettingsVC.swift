@@ -10,18 +10,19 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    var navView = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         print("Settings VC")
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 80))
+        navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         navView.isOpaque = true
         
         let label = UILabel(frame: CGRect(x:0, y: navView.bounds.height/2-10, width: navView.bounds.width, height: 50))
         label.text = "Settings"
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.font = UIFont(name: "AvenirNextCondensed-HeavyItalic", size: 35.0)
+        label.font = UIFont(name: "AvenirNextCondensed-HeavyItalic", size: 30.0)
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         
@@ -37,7 +38,12 @@ class SettingsVC: UIViewController {
         
     }
     
-
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+            
+        }
+    }
     /*
     // MARK: - Navigation
 

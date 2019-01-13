@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 class CreateSongVC: UIViewController, UITextFieldDelegate {
+    var navView = UIView()
     var songName = String()
     var artistName = String()
     var difficulty = String()
@@ -32,12 +33,14 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     
     var currentNote = Int()
     var nextbutton = UIButton()
+    var doneButton = UIButton()
+    var songTable = CreateSongTableVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         print("Settings VC")
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 80))
+        navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         navView.isOpaque = true
        
@@ -53,9 +56,9 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         }else{
             theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         }
-        let song = NSMutableAttributedString(string: ("\"" + (songName) + "\""), attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 35)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
-        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 32)!, NSAttributedString.Key.foregroundColor : theColor])
-        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 30)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+        let song = NSMutableAttributedString(string: ("\"" + (songName) + "\""), attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 25)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 23)!, NSAttributedString.Key.foregroundColor : theColor])
+        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 20)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
         song.append(splitter)
         song.append(artist)
         
@@ -91,7 +94,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         
         
         //eadgbe ebgdae
-        eeLine.frame = CGRect(x: 10, y: 150, width: self.view.bounds.width-20, height: 2.5)
+        eeLine.frame = CGRect(x: 10, y: navView.frame.maxY + 20, width: self.view.bounds.width-20, height: 2.5)
         eeL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
         ee.frame = CGRect(x: 5, y: -10, width: eeLine.frame.width - 10, height: 20)
         // e.text = "1 2 3 4 5 6 7 8 9 10"
@@ -178,7 +181,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         
         textViews()
         
-        let doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
+        doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
         doneButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         doneButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
         doneButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -189,8 +192,24 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         doneButton.layer.borderWidth = 2
         doneButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(doneButton)
+        
+//        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
+//        songTable.view.frame = theFrame
+//        songTable.size = theFrame
+//        songTable.fullSong = currentTab
+//        self.addChild(songTable)
+//        self.view.addSubview(songTable.view)
+//        
+//        songTable.loadViewIfNeeded()
+        
+        
     }
-    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+            
+        }
+    }
     @objc func donePressed()
     {
         let controller = CreateViewDone()
@@ -205,8 +224,8 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     
     func nextTab()
     {
-        print(currentTab.theE)
-        print(currentTab.e)
+       // print(currentTab.theE)
+        //print(currentTab.e)
         currentNote = 0
         eField.removeFromSuperview()
         aField.removeFromSuperview()
@@ -221,7 +240,24 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         g.text = ""
         b.text = ""
         ee.text = ""
+        
+        
+        songTable.removeFromParent()
+        songTable = CreateSongTableVC()
+        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
+        songTable.fullSong = currentTab
+        songTable.view.frame = theFrame
+        songTable.size = theFrame
+        songTable.viewDidLoad()
+        //songTable.createTempSong()
+        self.addChild(songTable)
+        self.view.addSubview(songTable.view)
+        
+        
         textViews()
+        
+        
+        
         
         
     }
@@ -231,7 +267,8 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         let empty = "  -"
         let oneOnly = " -"
         
-        
+        if(eField.frame.minX<self.view.bounds.width)
+        {
         if(eField.text?.count == 0)
         {
             currentTab.e.append(empty)
@@ -357,6 +394,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         ee.adjustsFontSizeToFitWidth = true
         ee.sizeToFit()
         self.eeLine.addSubview(ee)
+        }
     }
     
     
@@ -466,14 +504,4 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         return Int((self.view.bounds.width / 20) / 2)
         
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }

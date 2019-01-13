@@ -96,7 +96,7 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
         }
         tabBar.addSubview(addbutton)
         
-        let settingsbutton = UIButton(frame: CGRect(x: self.view.bounds.width * 0.05, y: addbutton.frame.maxY + 10, width: iconWidth, height: iconHeight))
+        let settingsbutton = UIButton(frame: CGRect(x: self.view.bounds.width * 0.05, y: addbutton.frame.maxY + 8, width: iconWidth, height: iconHeight))
         settingsbutton.setImage(#imageLiteral(resourceName: "icons8-services-50"), for: .normal)
         settingsbutton.addTarget(self, action:#selector(self.settingsPressed), for: .touchUpInside)
         if(TabBarVC.currentSelected == "Settings")
@@ -114,6 +114,12 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
             })
         
         
+    }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+            
+        }
     }
     
     @objc func discoverPressed()

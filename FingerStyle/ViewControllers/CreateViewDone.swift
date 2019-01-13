@@ -18,10 +18,15 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     var tableView = UITableView()
     var theSong = [SongTabObj]()
     var fullSong = SongTabObj()
+    var navView = UIView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
+        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
+        let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 60, height: 50))
         createTempSong()
         //let userDefaults = Foundation.UserDefaults.standard
         //userDefaults.set([], forKey: "Saved")
@@ -32,16 +37,13 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: 150, width: self.view.bounds.width, height: self.view.bounds.height-150)
+        tableView.frame = CGRect(x: 0, y: navView.frame.maxY + 50, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.maxY + 50))
         tableView.allowsSelection = false
         
         
         self.view.backgroundColor = .white
         
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 100))
-        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
-        let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height / 2, width: navView.bounds.width - 60, height: 50))
         var theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         if(difficulty == "Intermediate")
         {
@@ -52,9 +54,9 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         }
-        let song = NSMutableAttributedString(string: songName, attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 35)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
-        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 32)!, NSAttributedString.Key.foregroundColor : theColor])
-        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 30)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+        let song = NSMutableAttributedString(string: songName, attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 25)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+        let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 23)!, NSAttributedString.Key.foregroundColor : theColor])
+        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 20)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
         song.append(splitter)
         song.append(artist)
         label.attributedText = song
@@ -94,17 +96,19 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("Saved Pressed")
         let ref2 = Database.database().reference().childByAutoId().key! + songName
         let userDefaults = Foundation.UserDefaults.standard
-        var value = userDefaults.stringArray(forKey: "Saved") ?? [String]()
-        userDefaults.set([], forKey: "Saved")
+        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        //userDefaults.set(ref2, forKey: "Saved")
         print(value)
         if(value.count == 0)
         {
             print("Went into if")
-            userDefaults.set([ref2], forKey: "Saved")
+            userDefaults.set([ref2], forKey: "SavedSongs")
+            saveSong(key: ref2)
         }else{
             print("Went into else")
             value.append(ref2)
-            userDefaults.set(value, forKey: "Saved")
+            userDefaults.set(value, forKey: "SavedSongs")
+            saveSong(key: ref2)
         }
         print((userDefaults.stringArray(forKey: "Saved") ?? [String]()))
         let ref = Database.database().reference().child("Songs").child(ref2)
@@ -121,6 +125,23 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         ref.child("theDifficulty").setValue(difficulty)
         
     }
+    
+    func saveSong(key: String)
+    {
+        let userDefaults = Foundation.UserDefaults.standard
+        var arr = [String]()
+        arr.append(fullSong.e)
+        arr.append(fullSong.a)
+        arr.append(fullSong.d)
+        arr.append(fullSong.g)
+        arr.append(fullSong.b)
+        arr.append(fullSong.ee)
+        arr.append(songName)
+        arr.append(artistName)
+        arr.append(difficulty)
+        userDefaults.set(arr, forKey: key)
+    }
+    
     @objc func backPressed()
     {
         print("Back Pressed")
@@ -174,7 +195,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int((self.view.bounds.width / 20) / 2)
+        return Int(((self.view.bounds.width / 20) / 2))
         
     }
     func getAmountOfLines() -> Int
@@ -334,7 +355,12 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+            
+        }
+    }
     
 }
 

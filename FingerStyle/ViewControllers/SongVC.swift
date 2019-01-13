@@ -24,10 +24,23 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     var playButton = UIButton()
     var speedMultiplier = CGFloat()
     var playing = Bool()
+    var theBPM = CGFloat()
+    var tempo = CGFloat()
+    var landScape = Bool()
+    var navView = UIView()
+    var loopButton = UIButton()
+    var loop = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(theUid)
+        navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
+        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
+        let label = UILabel(frame: CGRect(x:25, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 50, height: 50))
+        if(landScape)
+        {
+            label.frame = CGRect(x:25, y: navView.bounds.height / 2 - 25, width: navView.bounds.width - 50, height: 50)
+        }
         createTempSong()
         print((self.view.bounds.width / 20) / 2)
         
@@ -37,16 +50,17 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: 100, width: self.view.bounds.width, height: self.view.bounds.height-150)
-        tableView.allowsSelection = false
+        tableView.frame = CGRect(x: 0, y: navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.maxY + 50))
+        tableView.allowsSelection = true
+        
+        let singleTap = UITapGestureRecognizer(target: self, action:#selector(self.singleTapAction(_:)))
+        singleTap.numberOfTapsRequired = 1
+        tableView.addGestureRecognizer(singleTap)
         
         
         self.view.backgroundColor = .white
         
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 100))
-        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        
-        let label = UILabel(frame: CGRect(x:25, y: navView.bounds.height / 2, width: navView.bounds.width - 50, height: 50))
+       
         var theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         if(difficulty == "Intermediate")
         {
@@ -57,16 +71,20 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         }else{
             theColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         }
-        let song = NSMutableAttributedString(string: songName, attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 35)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
-         let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 32)!, NSAttributedString.Key.foregroundColor : theColor])
-        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 30)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+        let song = NSMutableAttributedString(string: songName, attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-BoldItalic", size: 25)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
+         let splitter = NSMutableAttributedString(string: " - ", attributes: [NSAttributedString.Key.font : UIFont(name: "AvenirNext-Heavy", size: 23)!, NSAttributedString.Key.foregroundColor : theColor])
+        let artist = NSMutableAttributedString(string: artistName, attributes: [NSAttributedString.Key.font : UIFont(name: "Avenir-Book", size: 20)!, NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)])
         song.append(splitter)
         song.append(artist)
         label.attributedText = song
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         
-        let backbutton = UIButton(frame: CGRect(x: 0, y: label.frame.midY - 20, width: 25, height: 25))
+        let backbutton = UIButton(frame: CGRect(x: 0, y: label.frame.midY - 15, width: 25, height: 25))
+        if(landScape)
+        {
+            backbutton.frame = CGRect(x: 20, y: label.frame.midY - 15, width: 25, height: 25)
+        }
         backbutton.setImage(#imageLiteral(resourceName: "back_arrow"), for: .normal)
         backbutton.addTarget(self, action:#selector(self.backPressed), for: .touchUpInside)
         
@@ -76,8 +94,8 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         self.view.addSubview(tableView)
         
         
-        timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
-        timerLine.frame = CGRect(x: 10, y: 30, width: 0, height: 145)
+        timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
+        timerLine.frame = CGRect(x: 10, y: 30, width: 5, height: 145)
         self.tableView.addSubview(timerLine)
         
         speedMultiplier = 1
@@ -86,7 +104,7 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         
         let buttonView = UIView()
         buttonView.frame = CGRect(x: 0, y: self.view.bounds.height - 50, width: self.view.bounds.width, height: 50)
-        buttonView.backgroundColor = .white
+        buttonView.backgroundColor = .clear
         
         playButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 25, y: -15, width: 50, height: 50))
         playButton.setImage(#imageLiteral(resourceName: "icons8-circled-play-50 (1)"), for: .normal)
@@ -102,6 +120,16 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         speedUpButton.setImage(#imageLiteral(resourceName: "icons8-fast-forward-50"), for: .normal)
         speedUpButton.addTarget(self, action:#selector(self.speedUP), for: .touchUpInside)
         buttonView.addSubview(speedUpButton)
+        
+        let resetButton = UIButton(frame: CGRect(x: slowDownButton.frame.minX - 40, y: -5, width: 35, height: 35))
+        resetButton.setImage(#imageLiteral(resourceName: "speedReset"), for: .normal)
+        resetButton.addTarget(self, action:#selector(self.resetPressed), for: .touchUpInside)
+        buttonView.addSubview(resetButton)
+        
+        loopButton = UIButton(frame: CGRect(x: speedUpButton.frame.maxX + 5, y: -5, width: 35, height: 35))
+        loopButton.setImage(#imageLiteral(resourceName: "icons8-repeat-50 (1)"), for: .normal)
+        loopButton.addTarget(self, action:#selector(self.loopPressed), for: .touchUpInside)
+        buttonView.addSubview(loopButton)
         
         self.view.addSubview(buttonView)
         
@@ -122,22 +150,32 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     }
     @objc func slowDown()
     {
-        if(speedMultiplier == 2)
+        if(speedMultiplier - 0.25 > 0)
         {
-            speedMultiplier = 1
+            speedMultiplier = speedMultiplier - 0.25
+        }
+    }
+    @objc func loopPressed()
+    {
+        if(loop == false)
+        {
+            loopButton.setImage(loopButton.currentImage?.mask(with: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)), for: .normal)
+            loop = true
         }else{
-        speedMultiplier = 0.5
+            loopButton.setImage(#imageLiteral(resourceName: "icons8-repeat-50 (1)"), for: .normal)
+            loop = false
         }
     }
     @objc func speedUP()
     {
-        if(speedMultiplier == 0.5)
+        if(speedMultiplier + 0.25 < 5)
         {
-            speedMultiplier = 1.0
-        }else
-        {
-            speedMultiplier = 2
+            speedMultiplier = speedMultiplier + 0.25
         }
+    }
+    @objc func resetPressed()
+    {
+        speedMultiplier = 1
     }
     func scheduledTimerWithTimeInterval(){
         // Scheduling timer to Call the function "drawBack" with the interval of 1 seconds
@@ -154,15 +192,21 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
                 return
             }
             if(self.currentTab.row>=self.tableView.numberOfRows(inSection: 0)){
-                self.playing = false
-                self.playButton.setImage(#imageLiteral(resourceName: "icons8-play-50"), for: .normal)
+                if(self.loop == false)
+                {
+                    self.playing = false
+                    self.playButton.setImage(#imageLiteral(resourceName: "icons8-play-50"), for: .normal)
+                    self.timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
+                    timer.invalidate()
+                }
+                
+                
                 self.currentTab = IndexPath(row: 0, section: 0)
                 self.timerLine.removeFromSuperview()
-                self.timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
+                
                 self.timerLine.frame = CGRect(x: 10, y: 30, width: 0, height: 145)
                 self.tableView.addSubview(self.timerLine)
                 self.tableView.scrollToRow(at: self.currentTab, at: .top, animated: true)
-                timer.invalidate()
                 return
             }
             
@@ -177,7 +221,7 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         {
         timerLine.frame = CGRect(x: timerLine.frame.minX + speedMultiplier, y: timerLine.frame.minY, width: 5, height: 145)
         }else{
-            timerLine.frame = CGRect(x: 10, y: timerLine.frame.minY + 160, width: 5, height: 145)
+            timerLine.frame = CGRect(x: 10, y: timerLine.frame.minY + 170, width: 5, height: 145)
             print("Current Tab", currentTab)
             currentTab = IndexPath(row: currentTab.row + 1, section: 0)
             if(currentTab.row < tableView.numberOfRows(inSection: 0))
@@ -198,14 +242,42 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
 //            self.present(controller, animated: false, completion: nil)
 //            TabBarVC.currentSelected = "Saved"
     }
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        print("Getting Called")
-        if gestureRecognizer is UITapGestureRecognizer {
-            let location = touch.location(in: tableView)
-            return (tableView.indexPathForRow(at: location) == nil)
-        }
-        return true
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+//        print("Getting Called")
+//        if gestureRecognizer is UITapGestureRecognizer {
+//            let location = touch.location(in: tableView)
+//            return (tableView.indexPathForRow(at: location) == nil)
+//        }
+//        return true
+//    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Selected row at IndexPath: ", indexPath)
+//        timerLine.removeFromSuperview()
+//        timerLine.frame = CGRect(x: 10, y: (indexPath.row * 160) + 35 , width: 5, height: 145)
+//        currentTab = indexPath
+//        tableView.addSubview(timerLine)
+        currentTab = indexPath
+        
+        
     }
+    @objc func singleTapAction(_ sender: UITapGestureRecognizer)
+    {
+        let tapLoc = sender.location(in: self.tableView)
+        if let index  = self.tableView.indexPathForRow(at: tapLoc)
+        {
+            self.currentTab = index
+            timerLine.removeFromSuperview()
+            timerLine.frame = CGRect(x: tapLoc.x, y: (CGFloat(currentTab.row) * 170.0) + 35.0 , width: 5.0, height: 145.0)
+            tableView.addSubview(timerLine)
+        }
+        else
+        {
+            return
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getAmountOfLines()
     }
@@ -223,6 +295,21 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
             cell.g.text = theSong[indexPath.row].g
             cell.b.text = theSong[indexPath.row].b
             cell.ee.text = theSong[indexPath.row].ee
+            cell.selectionStyle = .none
+            
+//            cell.e.adjustsFontSizeToFitWidth = true
+//            cell.a.adjustsFontSizeToFitWidth = true
+//            cell.d.adjustsFontSizeToFitWidth = true
+//            cell.g.adjustsFontSizeToFitWidth = true
+//            cell.b.adjustsFontSizeToFitWidth = true
+//            cell.ee.adjustsFontSizeToFitWidth = true
+//
+//            cell.e.sizeToFit()
+//            cell.a.sizeToFit()
+//            cell.d.sizeToFit()
+//            cell.g.sizeToFit()
+//            cell.b.sizeToFit()
+//            cell.ee.sizeToFit()
             
         }
         cell.backgroundColor = .clear
@@ -230,12 +317,10 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 170
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected row at IndexPath: ", indexPath)
-    }
+    
     
     
     func calculateBPM()
@@ -246,7 +331,7 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int((self.view.bounds.width / 20) / 2)
+        return Int(((self.view.bounds.width / 20) / 2) + 1)
         
     }
     func getAmountOfLines() -> Int
@@ -423,6 +508,30 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         }
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .allButUpsideDown
+
+        }
+   }
     
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.view = UIView()
+        self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        self.tableView = UITableView()
+//        fullSong.theE = []
+//        fullSong.theA = []
+//        fullSong.theD = []
+//        fullSong.theG = []
+//        fullSong.theB = []
+//        fullSong.theEE = []
+          theSong = []
+        if UIDevice.current.orientation.isLandscape {
+            landScape = true
+        }else{
+            landScape = false
+        }
+        self.viewDidLoad()
+        
+    }
 }

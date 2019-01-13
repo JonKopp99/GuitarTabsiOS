@@ -14,18 +14,39 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     var tableView = UITableView()
     let theTabBar = TabBarVC()
     var songs = [SongObj]()
+    var navView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let userDefaults = Foundation.UserDefaults.standard
+//        userDefaults.set([], forKey: "SavedSongs")
+        TabBarVC.currentSelected = "Saved"
+        navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
+        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
+        let label = UILabel(frame: CGRect(x:0, y: navView.bounds.height/2-10, width: navView.bounds.width, height: 50))
+        
+        theTabBar.view.gestureRecognizers?.removeAll()
+        label.text = "Saved Songs"
+        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        label.font = UIFont(name: "AvenirNextCondensed-HeavyItalic", size: 30.0)
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        
+        navView.addSubview(label)
+        self.theTabBar.view.addSubview(navView)
+        
+        
+        
         loadTempSongs()
         loadSongs()
-        TabBarVC.currentSelected = "Saved"
+        
         self.view.backgroundColor = .white
         print("Saved VC")
         tableView.register(savedCellTableViewCell.self, forCellReuseIdentifier: "savedCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: 100, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.view.bounds.height-100)
+        tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: navView.bounds.maxY, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.view.bounds.height - navView.bounds.maxY)
         tableView.separatorStyle = .none
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeRight(_:)))
@@ -39,22 +60,15 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         self.view.backgroundColor = .white
         self.theTabBar.view.backgroundColor = .white
         
-        let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 100))
-        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
-        let label = UILabel(frame: CGRect(x:0, y: navView.bounds.height/2-10, width: navView.bounds.width, height: 50))
-       
-        theTabBar.view.gestureRecognizers?.removeAll()
-        label.text = "Saved Songs"
-        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.font = UIFont(name: "AvenirNextCondensed-HeavyItalic", size: 35.0)
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-        
-        navView.addSubview(label)
-        self.theTabBar.view.addSubview(navView)
         
     
+    }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+            
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         theTabBar.loadViewIfNeeded()
@@ -78,14 +92,18 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         print("Swiperight")
         //theTabBar.perform(#selector(theTabBar.swipeRight),with: nil, afterDelay: 0)
         UIView.animate(withDuration: 0.3, animations: {
-            self.tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: 100, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.view.bounds.height-100)
+            self.tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: self.navView.bounds.maxY, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.tableView.bounds.height)
         })
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        
+        if(tableView.cellForRow(at: (IndexPath(row: 0, section: 0))) != nil)
+        {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
     }
     @objc func swipeLeft(_ sender: UISwipeGestureRecognizer)
     {
         UIView.animate(withDuration: 0.3, animations: {
-            self.tableView.frame = CGRect(x: 0, y: 100, width: self.view.bounds.width, height: self.view.bounds.height-100)
+            self.tableView.frame = CGRect(x: 0, y: self.navView.bounds.maxY, width: self.view.bounds.width, height: self.tableView.bounds.height)
             })
     
     }
@@ -143,41 +161,29 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         print("LoadSongsCalled")
         let userDefaults = Foundation.UserDefaults.standard
         
-        let ref = Database.database().reference().child("Songs")
-        let thesongs = (userDefaults.stringArray(forKey: "Saved") ?? [String]())
+        let thesongs = (userDefaults.stringArray(forKey: "SavedSongs") ?? [String]())
         print(thesongs)
-        //for i in thesongs{
-            //ref.child(i)
-                ref.observeSingleEvent(of: .value, with: { snapshot in
-                    
-                    if !snapshot.exists() {
-                        print("WELL FUCK")
-                        return }
-                    let test = snapshot.value as! [String : AnyObject]
-                    //print(test)
-                    for(_, value) in test
-                    {
-                        print(value)
-                        let theValue = value as! [String : String]
-                        let song = SongObj()
-                        song.nameOfArtist = theValue["theArtist"]
-                        song.nameOfSong = theValue["theSongName"]
-                        song.difficulty = theValue["theDifficulty"]
-                        song.uid = theValue["theUid"]
-                        
-                        song.songTab.e = theValue["e"]
-                        song.songTab.a = theValue["a"]
-                        song.songTab.d = theValue["d"]
-                        song.songTab.g = theValue["g"]
-                        song.songTab.b = theValue["b"]
-                        song.songTab.ee = theValue["ee"]
-                    
-                        self.songs.append(song)
-                    }
-                    self.tableView.reloadData()
-                })
-            
-        //}
+        if(thesongs.count>=1)
+        {
+            for i in thesongs{
+                let song = SongObj()
+                let songInfo = (userDefaults.stringArray(forKey: i) ?? [String]())
+                print(songInfo)
+                song.songTab.e = songInfo[0]
+                song.songTab.a = songInfo[1]
+                song.songTab.d = songInfo[2]
+                song.songTab.g = songInfo[3]
+                song.songTab.b = songInfo[4]
+                song.songTab.ee = songInfo[5]
+                song.nameOfSong = songInfo[6]
+                song.nameOfArtist = songInfo[7]
+                song.difficulty = songInfo[8]
+                song.uid = i
+                songs.append(song)
+                
+            }
+        }
+        
     }
     
 }
