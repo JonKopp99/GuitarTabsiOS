@@ -16,4 +16,5 @@ class SongObj
     var difficulty: String!
     var uid: String!
     var songTab = SongTabObj()
+    var theDescription: String?
 }

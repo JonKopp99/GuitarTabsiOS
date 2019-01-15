@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import DZNEmptyDataSet
 
-class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate{
+class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
     
     var tableView = UITableView()
     let theTabBar = TabBarVC()
@@ -42,10 +43,11 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         loadSongs()
         
         self.view.backgroundColor = .white
-        print("Saved VC")
         tableView.register(savedCellTableViewCell.self, forCellReuseIdentifier: "savedCell")
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
         tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: navView.bounds.maxY, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.view.bounds.height - navView.bounds.maxY)
         tableView.separatorStyle = .none
         
@@ -60,10 +62,17 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         self.view.backgroundColor = .white
         self.theTabBar.view.backgroundColor = .white
         
-        
+       
         
     
     }
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let str = "You have no song saved 😰 \nCreate a tab or go to Discover!"
+        let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
             return .portrait
@@ -79,7 +88,6 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        print("Getting Called")
         if gestureRecognizer is UITapGestureRecognizer {
             let location = touch.location(in: tableView)
             return (tableView.indexPathForRow(at: location) == nil)
@@ -89,7 +97,6 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     
     @objc func swipeRight(_ sender: UISwipeGestureRecognizer)
     {
-        print("Swiperight")
         //theTabBar.perform(#selector(theTabBar.swipeRight),with: nil, afterDelay: 0)
         UIView.animate(withDuration: 0.3, animations: {
             self.tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: self.navView.bounds.maxY, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.tableView.bounds.height)
@@ -112,8 +119,6 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell") as! savedCellTableViewCell
-        print(indexPath.row)
-        print(("\"" + (songs[indexPath.row].nameOfSong) + "\""))
         cell.nameOfArtist.text = songs[indexPath.row].nameOfArtist
         cell.nameOfSong.text = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
         cell.difficulty.text = songs[indexPath.row].difficulty
@@ -138,7 +143,6 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected row at IndexPath: ", indexPath)
         if(tableView.cellForRow(at: indexPath) != nil)
         {
             let controller = SongVC()
@@ -147,6 +151,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
             controller.difficulty = (songs[indexPath.row].difficulty)
             controller.theUid = (songs[indexPath.row].uid)
             controller.fullSong = (songs[indexPath.row].songTab)
+            controller.theDescription = songs[indexPath.row].theDescription!
             self.present(controller, animated: false, completion: nil)
         }
     }
@@ -158,17 +163,14 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     
     func loadSongs()
     {
-        print("LoadSongsCalled")
         let userDefaults = Foundation.UserDefaults.standard
         
         let thesongs = (userDefaults.stringArray(forKey: "SavedSongs") ?? [String]())
-        print(thesongs)
         if(thesongs.count>=1)
         {
             for i in thesongs{
                 let song = SongObj()
                 let songInfo = (userDefaults.stringArray(forKey: i) ?? [String]())
-                print(songInfo)
                 song.songTab.e = songInfo[0]
                 song.songTab.a = songInfo[1]
                 song.songTab.d = songInfo[2]
@@ -178,6 +180,12 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 song.nameOfSong = songInfo[6]
                 song.nameOfArtist = songInfo[7]
                 song.difficulty = songInfo[8]
+                if(songInfo.count == 10)
+                {
+                    song.theDescription = songInfo[9]
+                }else{
+                    song.theDescription = ""
+                }
                 song.uid = i
                 songs.append(song)
                 

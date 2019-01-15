@@ -57,7 +57,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     func createTabBar()
     {
         
-        print("Creating TabBar")
         tabBar = UIView(frame: CGRect(x: -tabBarWidth, y: tabBarY, width: tabBarWidth, height: tabBarHeight))
         tabBar.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         tabBar.layer.cornerRadius = 20
@@ -124,7 +123,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     
     @objc func discoverPressed()
     {
-        print("Discover Pressed")
         if(TabBarVC.currentSelected != "Discover")
         {
             TabBarVC.currentSelected = "Discover"
@@ -134,7 +132,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     }
     @objc func savedPressed()
     {
-        print("Saved Pressed")
         if(TabBarVC.currentSelected != "Saved")
         {
         let controller = SavedVC()
@@ -144,7 +141,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     }
     @objc func addPressed()
     {
-        print("Add Pressed")
         if(TabBarVC.currentSelected != "Add")
         {
             let controller = CreateVC()
@@ -154,7 +150,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     
     @objc func settingsPressed()
     {
-        print("Settings Pressed")
         if(TabBarVC.currentSelected != "Settings")
         {
             let controller = SettingsVC()
@@ -164,7 +159,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     
     @objc func swipeRight(_ sender: UISwipeGestureRecognizer)
     {
-        print("Swiperight")
         UIView.animate(withDuration: 0.3, animations: {
             self.tabBar.alpha = 1
             self.tabBar.frame = CGRect(x: -self.view.bounds.width * 0.05, y: self.tabBar.frame.minY, width: self.tabBarWidth, height: self.tabBarHeight)
@@ -174,7 +168,6 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     
     @objc func swipeLeft(_ sender: UISwipeGestureRecognizer)
     {
-        print("SwipeLeft")
         
         UIView.animate(withDuration: 0.3, animations: {
             self.tabBar.alpha = 0

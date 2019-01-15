@@ -10,7 +10,7 @@
 import UIKit
 import Firebase
 
-class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate{
+class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UITextViewDelegate{
     
     var songName = String()
     var artistName = String()
@@ -19,7 +19,8 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     var theSong = [SongTabObj]()
     var fullSong = SongTabObj()
     var navView = UIView()
-    
+    var theDescription = String()
+    var uploadView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +29,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 60, height: 50))
         createTempSong()
-        //let userDefaults = Foundation.UserDefaults.standard
-        //userDefaults.set([], forKey: "Saved")
-        //print((userDefaults.stringArray(forKey: "Saved") ?? [String]()))
-        print(songName)
         self.view.backgroundColor = .white
-        print("Saved VC")
         tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -71,9 +67,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         navView.addSubview(backbutton)
         self.view.addSubview(navView)
         
-        let saveView = UIView(frame: CGRect(x: 0, y: navView.frame.maxY, width: view.bounds.width, height: 50))
-        saveView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let saveButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - (view.bounds.width * 0.2), y: 2.5, width: view.bounds.width * 0.4, height: 45))
+        let saveButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2  - 152.5, y: navView.frame.maxY + 5, width: 150, height: 45))
         saveButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         saveButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
         
@@ -84,45 +78,127 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         saveButton.layer.cornerRadius = 20
         saveButton.layer.borderWidth = 2
         saveButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        saveView.addSubview(saveButton)
-        self.view.addSubview(saveView)
+        self.view.addSubview(saveButton)
+        
+        let uploadButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2  + 2.5, y: navView.frame.maxY + 5, width: 150, height: 45))
+        uploadButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        uploadButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        
+        uploadButton.setTitle("Upload", for: .normal)
+        uploadButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        uploadButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        uploadButton.addTarget(self, action:#selector(self.uploadPressed), for: .touchUpInside)
+        uploadButton.layer.cornerRadius = 20
+        uploadButton.layer.borderWidth = 2
+        uploadButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        self.view.addSubview(uploadButton)
         
         self.view.addSubview(tableView)
         
         
     }
-    @objc func savePressed()
+    
+    @objc func uploadPressed()
     {
-        print("Saved Pressed")
+        uploadView.frame = CGRect(x: 10, y: tableView.frame.minY + 25, width: self.view.bounds.width - 20, height: self.view.bounds.height - ((self.navView.bounds.height) + 110))
+        uploadView.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1).withAlphaComponent(0.9)
+        uploadView.layer.cornerRadius = 20
+        
+        let desctextView = UITextView()
+        desctextView.frame = CGRect(x: 15, y: uploadView.frame.minY, width: self.view.bounds.width - 50, height: 100)
+        desctextView.delegate = self
+        desctextView.textAlignment = .left
+        desctextView.textColor = UIColor.black
+        desctextView.text = "Would you like to upload this song? The song will be reviewd by our admins and if approved uploaded to the Discover."
+        desctextView.font = UIFont(name: "Avenir-Book", size: 20)
+        desctextView.isSelectable = true
+        desctextView.layer.cornerRadius = 10
+        desctextView.autocorrectionType = .yes
+        desctextView.spellCheckingType = UITextSpellCheckingType.yes
+        desctextView.isEditable = false
+        desctextView.keyboardType = UIKeyboardType.default
+        desctextView.returnKeyType = .done
+        desctextView.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+        desctextView.sizeToFit()
+        uploadView.addSubview(desctextView)
+        
+        let noButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2  - 130.5, y: desctextView.frame.maxY + 10, width: 130, height: 30))
+        noButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        noButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20.0)
+        
+        noButton.setTitle("NO", for: .normal)
+        noButton.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+        noButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        noButton.addTarget(self, action:#selector(self.noPressed), for: .touchUpInside)
+        noButton.layer.cornerRadius = 15
+        noButton.layer.borderWidth = 2
+        noButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        uploadView.addSubview(noButton)
+        
+        let yesButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2  + 2.5, y: desctextView.frame.maxY + 10, width: 130, height: 30))
+        yesButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        yesButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20.0)
+        
+        yesButton.setTitle("YES", for: .normal)
+        yesButton.setTitleColor(#colorLiteral(red: 0.09029659377, green: 0.456161131, blue: 1, alpha: 1), for: .normal)
+        yesButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        yesButton.addTarget(self, action:#selector(self.yesPressed), for: .touchUpInside)
+        yesButton.layer.cornerRadius = 15
+        yesButton.layer.borderWidth = 2
+        yesButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        uploadView.addSubview(yesButton)
+        
+        self.view.addSubview(uploadView)
+    }
+    
+    @objc func noPressed()
+    {
+        uploadView.removeFromSuperview()
+    }
+    @objc func yesPressed()
+    {
+        uploadView.removeFromSuperview()
         let ref2 = Database.database().reference().childByAutoId().key! + songName
         let userDefaults = Foundation.UserDefaults.standard
         var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
-        //userDefaults.set(ref2, forKey: "Saved")
-        print(value)
         if(value.count == 0)
         {
-            print("Went into if")
             userDefaults.set([ref2], forKey: "SavedSongs")
             saveSong(key: ref2)
         }else{
-            print("Went into else")
             value.append(ref2)
             userDefaults.set(value, forKey: "SavedSongs")
             saveSong(key: ref2)
         }
-        print((userDefaults.stringArray(forKey: "Saved") ?? [String]()))
         let ref = Database.database().reference().child("Songs").child(ref2)
         ref.child("e").setValue(self.fullSong.e)
         ref.child("a").setValue(self.fullSong.a)
         ref.child("d").setValue(self.fullSong.d)
-        ref.child("b").setValue(self.fullSong.g)
-        ref.child("g").setValue(self.fullSong.b)
+        ref.child("g").setValue(self.fullSong.g)
+        ref.child("b").setValue(self.fullSong.b)
         ref.child("ee").setValue(self.fullSong.ee)
         
         ref.child("theUid").setValue(ref2)
         ref.child("theSongName").setValue(songName)
         ref.child("theArtist").setValue(artistName)
         ref.child("theDifficulty").setValue(difficulty)
+        ref.child("theDescription").setValue(theDescription)
+    }
+    @objc func savePressed()
+    {
+        let ref2 = Database.database().reference().childByAutoId().key! + songName
+        let userDefaults = Foundation.UserDefaults.standard
+        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        //userDefaults.set(ref2, forKey: "Saved")
+        if(value.count == 0)
+        {
+            userDefaults.set([ref2], forKey: "SavedSongs")
+            saveSong(key: ref2)
+        }else{
+            value.append(ref2)
+            userDefaults.set(value, forKey: "SavedSongs")
+            saveSong(key: ref2)
+        }
         
     }
     
@@ -139,19 +215,21 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         arr.append(songName)
         arr.append(artistName)
         arr.append(difficulty)
+        arr.append(theDescription)
         userDefaults.set(arr, forKey: key)
+        
+        let controller = SavedVC()
+        self.present(controller, animated: false, completion: nil)
     }
     
     @objc func backPressed()
     {
-        print("Back Pressed")
         let controller = CreateVC()
         controller.ArtistTextField.text = artistName
         controller.SongTextField.text = songName
         self.present(controller, animated: false, completion: nil)
     }
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        print("Getting Called")
         if gestureRecognizer is UITapGestureRecognizer {
             let location = touch.location(in: tableView)
             return (tableView.indexPathForRow(at: location) == nil)
@@ -166,8 +244,6 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if(indexPath.row<theSong.count)
         {
-            //print(theSong[indexPath.row].theE)
-            //print(theSong[indexPath.row].e)
             
             cell.e.text = theSong[indexPath.row].e
             cell.a.text = theSong[indexPath.row].a
@@ -187,11 +263,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     
     
-    func calculateBPM()
-    {
-        //Should calculate how many notes per second
-    }
-    
+
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
@@ -205,12 +277,6 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         return toReturn
     }
     
-    func fillTableView()
-    {
-        //should get BPM and notesPerLine to figure out how/where to place all the notes
-        //Divide the width / notesPerline to find out spacing between the notes.
-        
-    }
     func spacingBetweenNotes()->String
     {
         return "  "
@@ -253,7 +319,6 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         let numNotesPerLine = getNotesPerLine()
         var max = themax
-        print(max % numNotesPerLine) //1 for 21 % 10
         if(max % numNotesPerLine != 0)
         {
             let toAdd = numNotesPerLine - (max % numNotesPerLine)
@@ -284,12 +349,6 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         {
             fullSong.theEE.append("  ")
         }
-        print(fullSong.theE.count)
-        print(fullSong.theA.count)
-        print(fullSong.theD.count)
-        print(fullSong.theG.count)
-        print(fullSong.theB.count)
-        print(fullSong.theEE.count)
         seperateIntoArray()
     }
     
@@ -351,7 +410,6 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
             i.g = (i.g + i.theG[i.theE.count-1])
             i.b = (i.b + i.theB[i.theE.count-1])
             i.ee = (i.ee + i.theEE[i.theE.count-1])
-            print(i.e)
         }
     }
     

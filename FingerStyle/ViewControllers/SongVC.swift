@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate{
+class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UITextViewDelegate{
 
     var songName = String()
     var artistName = String()
@@ -30,23 +30,24 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     var navView = UIView()
     var loopButton = UIButton()
     var loop = Bool()
+    var theDescription = String()
+    var infoView = UIView()
+    var discover = Bool()
+    var admin = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
-        let label = UILabel(frame: CGRect(x:25, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 50, height: 50))
+        let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 60, height: 50))
         if(landScape)
         {
             label.frame = CGRect(x:25, y: navView.bounds.height / 2 - 25, width: navView.bounds.width - 50, height: 50)
         }
         createTempSong()
-        print((self.view.bounds.width / 20) / 2)
         
-        print(songName)
         self.view.backgroundColor = .white
-        print("Saved VC")
         tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -79,17 +80,21 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         label.attributedText = song
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-        
-        let backbutton = UIButton(frame: CGRect(x: 0, y: label.frame.midY - 15, width: 25, height: 25))
+        let infobutton = UIButton(frame: CGRect(x: self.view.bounds.width - 30, y: label.frame.midY - 10, width: 25, height: 25))
+        infobutton.setImage(#imageLiteral(resourceName: "icons8-info-50"), for: .normal)
+        infobutton.addTarget(self, action:#selector(self.infoPressed), for: .touchUpInside)
+        let backbutton = UIButton(frame: CGRect(x: 2.5, y: label.frame.midY - 15, width: 25, height: 25))
         if(landScape)
         {
             backbutton.frame = CGRect(x: 20, y: label.frame.midY - 15, width: 25, height: 25)
+            infobutton.frame = CGRect(x: self.view.bounds.width - 40, y: label.frame.midY - 10, width: 25, height: 25)
         }
         backbutton.setImage(#imageLiteral(resourceName: "back_arrow"), for: .normal)
         backbutton.addTarget(self, action:#selector(self.backPressed), for: .touchUpInside)
         
         navView.addSubview(label)
         navView.addSubview(backbutton)
+        navView.addSubview(infobutton)
         self.view.addSubview(navView)
         self.view.addSubview(tableView)
         
@@ -134,9 +139,169 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         self.view.addSubview(buttonView)
         
     }
+    @objc func infoPressed()
+    {
+        infoView = UIView()
+        infoView.frame = CGRect(x: 30, y: self.view.bounds.height * 0.2, width: self.view.bounds.width - 60, height: self.view.bounds.height * 0.6)
+        infoView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).withAlphaComponent(0.9)
+        infoView.layer.cornerRadius = 20
+        
+        let closeButton = UIButton()
+        closeButton.frame = CGRect(x: 12.5, y: 12.5, width: 25, height: 25)
+        closeButton.setImage(#imageLiteral(resourceName: "icons8-cancel-50 (1)").mask(with: #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)), for: .normal)
+        closeButton.addTarget(self, action:#selector(self.closePressed), for: .touchUpInside)
+        
+        if(discover)
+        {
+            var saveButton = UIButton()
+            if(admin)
+            {
+                saveButton = UIButton()
+                saveButton.frame = CGRect(x: self.view.bounds.width - 90, y: 12.5, width: 30, height: 30)
+                saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-math-filled-50").mask(with: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)), for: .normal)
+                saveButton.addTarget(self, action:#selector(self.saveAdminPressed), for: .touchUpInside)
+                infoView.addSubview(saveButton)
+            }else{
+                saveButton = UIButton()
+                saveButton.frame = CGRect(x: self.view.bounds.width - 90, y: 12.5, width: 25, height: 25)
+                saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-50"), for: .normal)
+                saveButton.addTarget(self, action:#selector(self.savePressed), for: .touchUpInside)
+                infoView.addSubview(saveButton)
+            }
+        }else{
+            let deleteButton = UIButton(frame: CGRect(x: self.view.bounds.width - 150, y: 12.5, width: 70, height: 30))
+            deleteButton.backgroundColor = .clear
+            deleteButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18.0)
+            deleteButton.setTitleColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), for: .normal)
+            deleteButton.setTitle("Delete Song", for: .normal)
+            deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            deleteButton.addTarget(self, action:#selector(self.deletePressed), for: .touchUpInside)
+            infoView.addSubview(deleteButton)
+            
+        }
+        
+        
+        let desctextView  = UITextView()
+        desctextView.frame = CGRect(x: 10, y: 35, width: infoView.bounds.width - 20, height: infoView.bounds.height - 40)
+        desctextView.delegate = self
+        desctextView.textAlignment = .left
+        desctextView.textColor = UIColor.black
+        desctextView.text = theDescription
+        if(theDescription == "")
+        {
+            desctextView.text = "No description provided for this song."
+        }
+        desctextView.font = UIFont(name: "Avenir-Book", size: 20)
+        desctextView.isSelectable = true
+        desctextView.layer.cornerRadius = 10
+        desctextView.autocorrectionType = .yes
+        desctextView.spellCheckingType = UITextSpellCheckingType.yes
+        desctextView.isEditable = false
+        desctextView.keyboardType = UIKeyboardType.default
+        desctextView.returnKeyType = .done
+        
+        desctextView.backgroundColor = .clear
+        //desctextView.layer.cornerRadius = 10
+        //desctextView.layer.borderWidth = 2
+        //desctextView.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        infoView.addSubview(closeButton)
+        infoView.addSubview(desctextView)
+        self.view.addSubview(infoView)
+        
+    }
+    
+    
+    @objc func deletePressed()
+    {
+        let userDefaults = Foundation.UserDefaults.standard
+        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        var ctr = 0
+        for i in value
+        {
+            if(i == theUid)
+            {
+                userDefaults.set([], forKey: i)
+                value.remove(at: ctr)
+                userDefaults.set(value, forKey: "SavedSongs")
+            }
+            ctr += 1
+        }
+        let controller = SavedVC()
+        self.present(controller, animated: false, completion: nil)
+        //uploadToDB()
+    }
+    
+    @objc func saveAdminPressed()
+    {
+        let ref2 = Database.database().reference().childByAutoId().key! + songName
+        let ref = Database.database().reference().child("PublishedSongs").child(ref2)
+        ref.child("e").setValue(self.fullSong.e)
+        ref.child("a").setValue(self.fullSong.a)
+        ref.child("d").setValue(self.fullSong.d)
+        ref.child("g").setValue(self.fullSong.g)
+        ref.child("b").setValue(self.fullSong.b)
+        ref.child("ee").setValue(self.fullSong.ee)
+        
+        ref.child("theUid").setValue(ref2)
+        var songWithoutQuotes = songName
+        songWithoutQuotes.removeFirst()
+        songWithoutQuotes.removeLast()
+        ref.child("theSongName").setValue(songWithoutQuotes)
+        ref.child("theArtist").setValue(artistName)
+        ref.child("theDifficulty").setValue(difficulty)
+        ref.child("theDescription").setValue(theDescription)
+
+    }
+    
+    @objc func savePressed()
+    {
+        let ref2 = Database.database().reference().childByAutoId().key! + songName
+        let userDefaults = Foundation.UserDefaults.standard
+        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        //userDefaults.set(ref2, forKey: "Saved")
+        if(value.count == 0)
+        {
+            userDefaults.set([ref2], forKey: "SavedSongs")
+            saveSong(key: ref2)
+        }else{
+            value.append(ref2)
+            userDefaults.set(value, forKey: "SavedSongs")
+            saveSong(key: ref2)
+        }
+    }
+    
+    func saveSong(key: String)
+    {
+        let userDefaults = Foundation.UserDefaults.standard
+        var arr = [String]()
+        arr.append(fullSong.e)
+        arr.append(fullSong.a)
+        arr.append(fullSong.d)
+        arr.append(fullSong.g)
+        arr.append(fullSong.b)
+        arr.append(fullSong.ee)
+        var songWithoutQuotes = songName
+        songWithoutQuotes.removeFirst()
+        songWithoutQuotes.removeLast()
+        arr.append(songWithoutQuotes)
+        arr.append(artistName)
+        arr.append(difficulty)
+        arr.append(theDescription)
+        userDefaults.set(arr, forKey: key)
+        
+        let controller = SavedVC()
+        self.present(controller, animated: false, completion: nil)
+    }
+    
+    @objc func closePressed()
+    {
+        //infoView = UIView()
+        
+        infoView.removeFromSuperview()
+    }
+    
     @objc func playPressed()
     {
-        print("Play Pressed")
         if(playing == false)
         {
         scheduledTimerWithTimeInterval()
@@ -173,10 +338,12 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
             speedMultiplier = speedMultiplier + 0.25
         }
     }
+    
     @objc func resetPressed()
     {
         speedMultiplier = 1
     }
+    
     func scheduledTimerWithTimeInterval(){
         // Scheduling timer to Call the function "drawBack" with the interval of 1 seconds
         var timer = Timer()
@@ -215,14 +382,12 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     
     @objc func drawTimer()
     {
-        //print("Boop")
         timerLine.removeFromSuperview()
         if(timerLine.frame.minX <= self.view.bounds.width - 20)
         {
         timerLine.frame = CGRect(x: timerLine.frame.minX + speedMultiplier, y: timerLine.frame.minY, width: 5, height: 145)
         }else{
             timerLine.frame = CGRect(x: 10, y: timerLine.frame.minY + 170, width: 5, height: 145)
-            print("Current Tab", currentTab)
             currentTab = IndexPath(row: currentTab.row + 1, section: 0)
             if(currentTab.row < tableView.numberOfRows(inSection: 0))
             {
@@ -236,30 +401,11 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     
     @objc func backPressed()
     {
-        print("Back Pressed")
             self.dismiss(animated: true, completion: nil)
-//            let controller = SavedVC()
-//            self.present(controller, animated: false, completion: nil)
-//            TabBarVC.currentSelected = "Saved"
     }
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-//        print("Getting Called")
-//        if gestureRecognizer is UITapGestureRecognizer {
-//            let location = touch.location(in: tableView)
-//            return (tableView.indexPathForRow(at: location) == nil)
-//        }
-//        return true
-//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected row at IndexPath: ", indexPath)
-//        timerLine.removeFromSuperview()
-//        timerLine.frame = CGRect(x: 10, y: (indexPath.row * 160) + 35 , width: 5, height: 145)
-//        currentTab = indexPath
-//        tableView.addSubview(timerLine)
         currentTab = indexPath
-        
-        
     }
     @objc func singleTapAction(_ sender: UITapGestureRecognizer)
     {
@@ -286,8 +432,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         
         if(indexPath.row<theSong.count)
         {
-            print(theSong[indexPath.row].theE)
-            print(theSong[indexPath.row].e)
             
             cell.e.text = theSong[indexPath.row].e
             cell.a.text = theSong[indexPath.row].a
@@ -296,20 +440,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
             cell.b.text = theSong[indexPath.row].b
             cell.ee.text = theSong[indexPath.row].ee
             cell.selectionStyle = .none
-            
-//            cell.e.adjustsFontSizeToFitWidth = true
-//            cell.a.adjustsFontSizeToFitWidth = true
-//            cell.d.adjustsFontSizeToFitWidth = true
-//            cell.g.adjustsFontSizeToFitWidth = true
-//            cell.b.adjustsFontSizeToFitWidth = true
-//            cell.ee.adjustsFontSizeToFitWidth = true
-//
-//            cell.e.sizeToFit()
-//            cell.a.sizeToFit()
-//            cell.d.sizeToFit()
-//            cell.g.sizeToFit()
-//            cell.b.sizeToFit()
-//            cell.ee.sizeToFit()
             
         }
         cell.backgroundColor = .clear
@@ -355,18 +485,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     
     func createTempSong()
     {
-        
-        //let theSong = SongTabObj()
-//        theSong.e = "5 -5 -  -5 -5 -5 -5 -  -5 -  -5 -5 -  -5 -  -5 -5 -  -5 -5 "
-//        theSong.a = "  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  "
-//        theSong.d = "  -  -0 -  -  -  -  -0 -  -  -  -  -0 -  -  -  -  -0 -  - "
-//        theSong.g = "5 -  -  -  -  -5 -  -  -  -  -5 -  -  -  -  -5 -  -  -  -5 "
-//        theSong.b = "  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  "
-//       theSong.ee = "  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  "
-        
-        
-        //fullSong = theSong
-        print("tEST" + fullSong.e)
         fullSong.theE = fullSong.e.components(separatedBy: "-")
         fullSong.theA = fullSong.a.components(separatedBy: "-")
         fullSong.theD = fullSong.d.components(separatedBy: "-")
@@ -407,7 +525,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     {
         let numNotesPerLine = getNotesPerLine()
         var max = themax
-        print(max % numNotesPerLine) //1 for 21 % 10
         if(max % numNotesPerLine != 0)
         {
             let toAdd = numNotesPerLine - (max % numNotesPerLine)
@@ -438,12 +555,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         {
             fullSong.theEE.append("  ")
         }
-        print(fullSong.theE.count)
-        print(fullSong.theA.count)
-        print(fullSong.theD.count)
-        print(fullSong.theG.count)
-        print(fullSong.theB.count)
-        print(fullSong.theEE.count)
         seperateIntoArray()
     }
     
@@ -482,6 +593,24 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         
     }
     
+    func uploadToDB()
+    {
+        let ref2 = Database.database().reference().childByAutoId().key! + songName
+        let ref = Database.database().reference().child("Songs").child(ref2)
+        ref.child("e").setValue(self.fullSong.e)
+        ref.child("a").setValue(self.fullSong.a)
+        ref.child("d").setValue(self.fullSong.d)
+        ref.child("g").setValue(self.fullSong.g)
+        ref.child("b").setValue(self.fullSong.b)
+        ref.child("ee").setValue(self.fullSong.ee)
+        
+        ref.child("theUid").setValue(ref2)
+        ref.child("theSongName").setValue(songName)
+        ref.child("theArtist").setValue(artistName)
+        ref.child("theDifficulty").setValue(difficulty)
+        ref.child("theDescription").setValue(theDescription)
+    }
+    
     func addSpacing()
     {
         //let spacing = spacingBetweenNotes()
@@ -515,16 +644,15 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         }
    }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.playing = false
+    }
+    
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         self.view = UIView()
         self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         self.tableView = UITableView()
-//        fullSong.theE = []
-//        fullSong.theA = []
-//        fullSong.theD = []
-//        fullSong.theG = []
-//        fullSong.theB = []
-//        fullSong.theEE = []
           theSong = []
         if UIDevice.current.orientation.isLandscape {
             landScape = true

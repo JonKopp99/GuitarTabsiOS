@@ -11,5 +11,4 @@ target 'FingerStyle' do
 	pod 'Firebase/Database'
 	pod 'Firebase/Storage'
 	pod 'DZNEmptyDataSet'
-	pod 'ChameleonFramework'  
 end

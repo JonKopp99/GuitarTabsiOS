@@ -19,18 +19,13 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     var size = CGRect()
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewLoaded")
-        print("The array", fullSong.theE)
-        print("The e", fullSong.e)
         createTempSong()
-        //let userDefaults = Foundation.UserDefaults.standard
-        //userDefaults.set([], forKey: "Saved")
-        //print((userDefaults.stringArray(forKey: "Saved") ?? [String]()))
         self.view.backgroundColor = .white
         self.view.frame = size
-        tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
+        tableView.register(createSongTableViewCell.self, forCellReuseIdentifier: "createsongCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
@@ -47,12 +42,10 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
         return getAmountOfLines()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "songCell") as! songTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "createsongCell") as! createSongTableViewCell
         
         if(indexPath.row<theSong.count)
         {
-            //print(theSong[indexPath.row].theE)
-            //print(theSong[indexPath.row].e)
             
             cell.e.text = theSong[indexPath.row].e
             cell.a.text = theSong[indexPath.row].a
@@ -60,6 +53,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
             cell.g.text = theSong[indexPath.row].g
             cell.b.text = theSong[indexPath.row].b
             cell.ee.text = theSong[indexPath.row].ee
+            
             
         }
         
@@ -146,7 +140,6 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     {
         let numNotesPerLine = getNotesPerLine()
         var max = themax
-       // print(max % numNotesPerLine) //1 for 21 % 10
         if(max % numNotesPerLine != 0)
         {
             let toAdd = numNotesPerLine - (max % numNotesPerLine)
@@ -177,12 +170,6 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
         {
             fullSong.theEE.append("  ")
         }
-//        print(fullSong.theE.count)
-//        print(fullSong.theA.count)
-//        print(fullSong.theD.count)
-//        print(fullSong.theG.count)
-//        print(fullSong.theB.count)
-//        print(fullSong.theEE.count)
         seperateIntoArray()
     }
     
@@ -244,7 +231,6 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
             i.g = (i.g + i.theG[i.theE.count-1])
             i.b = (i.b + i.theB[i.theE.count-1])
             i.ee = (i.ee + i.theEE[i.theE.count-1])
-            //print(i.e)
         }
     }
     

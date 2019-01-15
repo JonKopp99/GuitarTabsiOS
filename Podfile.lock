@@ -1,7 +1,4 @@
 PODS:
-  - ChameleonFramework (2.1.0):
-    - ChameleonFramework/Default (= 2.1.0)
-  - ChameleonFramework/Default (2.1.0)
   - DZNEmptyDataSet (1.8.1)
   - Firebase/Auth (5.14.0):
     - Firebase/CoreOnly
@@ -79,7 +76,6 @@ PODS:
   - nanopb/encode (0.3.901)
 
 DEPENDENCIES:
-  - ChameleonFramework
   - DZNEmptyDataSet
   - Firebase/Auth
   - Firebase/Core
@@ -88,7 +84,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - ChameleonFramework
     - DZNEmptyDataSet
     - Firebase
     - FirebaseAnalytics
@@ -105,7 +100,6 @@ SPEC REPOS:
     - nanopb
 
 SPEC CHECKSUMS:
-  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Firebase: 963d5685fae888a56d6d4d9cfce6b9c976958798
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
@@ -121,6 +115,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: ff87e49f46c25d04658eca0109db3db43cf27e17
+PODFILE CHECKSUM: c68a6906212bfd421ef144f57aa0c1d38b21df4e
 
 COCOAPODS: 1.5.3

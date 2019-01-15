@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreateVC: UIViewController, UITextFieldDelegate {
+class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     var ArtistTextField = UITextField()
     var SongTextField = UITextField()
     var difficulty = String()
@@ -17,10 +17,10 @@ class CreateVC: UIViewController, UITextFieldDelegate {
     var begButton = UIButton()
     var intButton = UIButton()
     var expButton = UIButton()
+    var desctextView = UITextView()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        print("Create VC")
         let navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         navView.isOpaque = true
@@ -118,7 +118,26 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         expButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(expButton)
         
+        desctextView  = UITextView(frame: CGRect(x: 10, y: intButton.frame.maxY + 35, width: self.view.bounds.width - 20, height: self.view.bounds.height - (intButton.frame.maxY + (navView.bounds.height)) - 80))
+        desctextView.delegate = self
+        desctextView.textAlignment = .left
+        desctextView.textColor = UIColor.darkGray
+        desctextView.text = "Enter any additional song information. (e.g., Capo 2nd fret)"
+        desctextView.font = UIFont(name: "Avenir-Book", size: 20)
+        desctextView.isSelectable = true
+        desctextView.layer.cornerRadius = 10
+        desctextView.autocorrectionType = .yes
+        desctextView.spellCheckingType = UITextSpellCheckingType.yes
+        desctextView.isEditable = true
+        desctextView.keyboardType = UIKeyboardType.default
+        desctextView.returnKeyType = .done
         
+        desctextView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        desctextView.layer.cornerRadius = 10
+        desctextView.layer.borderWidth = 2
+        desctextView.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        
+        self.view.addSubview(desctextView)
         
         let doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
         doneButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
@@ -174,23 +193,25 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         errorMSG.removeFromSuperview()
         if(SongTextField.text == "")
         {
-            print("Song must have a name.")
             errorMSG.text = "Song must have a name."
         }
         else if(ArtistTextField.text == "")
         {
-            print("Song must have an artist")
             errorMSG.text = "Song must have an artist."
         }
         else if(difficulty == "")
         {
-            print("Must have a difficulty selected!")
             errorMSG.text = "Select difficulty."
         }else{
             let controller = CreateSongVC()
             controller.artistName = ArtistTextField.text!
             controller.songName = SongTextField.text!
             controller.difficulty = difficulty
+            if(desctextView.text == "Enter any additional song information. (e.g., Capo 2nd fret)")
+            {
+                desctextView.text = ""
+            }
+            controller.theDescription = desctextView.text
             self.present(controller, animated: false, completion: nil)
         }
         errorMSG.frame = CGRect(x: 10, y: intButton.frame.maxY, width: self.view.bounds.width - 20, height: 30)
@@ -211,6 +232,33 @@ class CreateVC: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
         
         super.touchesBegan(touches,  with: event)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if desctextView.textColor == UIColor.darkGray {
+            desctextView.text = ""
+            desctextView.textColor = UIColor.black
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if(desctextView.text == "")
+        {
+            desctextView.textColor = UIColor.darkGray
+            desctextView.text = ("Enter any additional song information. (e.g., Capo 2nd fret)")
+            return
+        }
+        return
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
     /*
     // MARK: - Navigation

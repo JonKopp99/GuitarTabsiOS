@@ -15,6 +15,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     var difficulty = String()
     var tabs = [SongTabObj]()
     var currentTab = SongTabObj()
+    var theDescription = String()
     
     //Views used throughout program
     var eLine = UIView(); var eL = UILabel(); var e = UILabel()
@@ -39,9 +40,8 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        print("Settings VC")
         navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
-        navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        navView.backgroundColor = #colorLiteral(red: 0.2392156863, green: 0.6745098039, blue: 0.968627451, alpha: 1)
         navView.isOpaque = true
        
         self.view.addSubview(navView)
@@ -75,6 +75,19 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(navView)
         setUpViews()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        checkMaxLength(textField: textField)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+    func checkMaxLength(textField: UITextField!) {
+        if (textField.text!.count >= 2) {
+            textField.deleteBackward()
+        }
     }
     func setUpViews()
     {
@@ -193,16 +206,6 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         doneButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(doneButton)
         
-//        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
-//        songTable.view.frame = theFrame
-//        songTable.size = theFrame
-//        songTable.fullSong = currentTab
-//        self.addChild(songTable)
-//        self.view.addSubview(songTable.view)
-//        
-//        songTable.loadViewIfNeeded()
-        
-        
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
@@ -218,14 +221,12 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         controller.difficulty = difficulty
         //controller.theSong = tabs
         controller.fullSong = currentTab
-        print(currentTab.theE)
+        controller.theDescription = theDescription
         self.present(controller, animated: false, completion: nil)
     }
     
     func nextTab()
     {
-       // print(currentTab.theE)
-        //print(currentTab.e)
         currentNote = 0
         eField.removeFromSuperview()
         aField.removeFromSuperview()
@@ -503,5 +504,15 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         //Should return how many notes before going to the next line.
         return Int((self.view.bounds.width / 20) / 2)
         
+    }
+}
+
+extension UITextField {
+    
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.paste) || action == #selector(UIResponderStandardEditActions.copy){
+            return false
+        }
+        return true
     }
 }
