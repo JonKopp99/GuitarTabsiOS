@@ -4,7 +4,18 @@
 
 Are you struggling learning guitar? FingerStyle is a must have app for all guitarists. Whether you are a beginner or experienced player. FingerStyle is packed with many tools and features to help you master any guitar song. 
 
-## Features and Screen Casts
+## Features
+
+▶ New songs added daily
+▶ Discover songs
+▶ Create guitar tabs
+▶ Play through songs
+▶ Slow down/speed up any guitar song
+▶ Loop songs
+▶ Save songs to play in offline mode
+
+## Screen Casts
+
 
 **Discover your next song to master!**
 
