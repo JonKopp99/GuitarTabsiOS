@@ -7,11 +7,17 @@ Are you struggling learning guitar? FingerStyle is a must have app for all guita
 ## Features
 
 ▶ New songs added daily
+
 ▶ Discover songs
+
 ▶ Create guitar tabs
+
 ▶ Play through songs
+
 ▶ Slow down/speed up any guitar song
+
 ▶ Loop songs
+
 ▶ Save songs to play in offline mode
 
 ## Screen Casts
