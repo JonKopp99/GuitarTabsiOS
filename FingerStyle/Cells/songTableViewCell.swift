@@ -32,7 +32,7 @@ class songTableViewCell: UITableViewCell{
         
         //eadgbe ebgdae
         eeLine.frame = CGRect(x: 10, y: 45, width: frame.width-20, height: 2.5)
-        eeL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        eeL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         ee.frame = CGRect(x: 5, y: -10, width: eeLine.frame.width - 10, height: 20)
        // e.text = "1 2 3 4 5 6 7 8 9 10"
         ee.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -41,10 +41,10 @@ class songTableViewCell: UITableViewCell{
         ee.sizeToFit()
         ee.adjustsFontSizeToFitWidth = true
         eeLine.addSubview(ee)
-        eeLine.addSubview(eeL)
+        
         
         bLine.frame = CGRect(x: 10, y: eeLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        bL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        bL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         b.frame = CGRect(x: 5, y: -10, width: bLine.frame.width - 10, height: 20)
         //a.text = "12 2 3 4 5 6 7 8 9 10"
         b.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -53,10 +53,10 @@ class songTableViewCell: UITableViewCell{
         b.sizeToFit()
         b.adjustsFontSizeToFitWidth = true
         bLine.addSubview(b)
-        bLine.addSubview(bL)
+        
         
         gLine.frame = CGRect(x: 10, y: bLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        gL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        gL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         g.frame = CGRect(x: 5, y: -10, width: gLine.frame.width - 10, height: 20)
         //d.text = "13 2 3 4 5 6 7 8 9 10"
         g.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -65,10 +65,10 @@ class songTableViewCell: UITableViewCell{
         g.sizeToFit()
         g.adjustsFontSizeToFitWidth = true
         gLine.addSubview(g)
-        gLine.addSubview(gL)
+        
         
         dLine.frame = CGRect(x: 10, y: gLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        dL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        dL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         d.frame = CGRect(x: 5, y: -10, width: dLine.frame.width - 10, height: 20)
         //g.text = "14 2 3 4 5 6 7 8 9 10"
         d.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -77,10 +77,10 @@ class songTableViewCell: UITableViewCell{
         d.sizeToFit()
         d.adjustsFontSizeToFitWidth = true
         dLine.addSubview(d)
-        dLine.addSubview(dL)
+        
         
         aLine.frame = CGRect(x: 10, y: dLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        aL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        aL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         a.frame = CGRect(x: 5, y: -10, width: aLine.frame.width - 10, height: 20)
         //b.text = "15 2 3 4 5 6 7 8 9 10"
         a.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -89,10 +89,10 @@ class songTableViewCell: UITableViewCell{
         a.sizeToFit()
         //b.adjustsFontSizeToFitWidth = true
         aLine.addSubview(a)
-        aLine.addSubview(aL)
+        
         
         eLine.frame = CGRect(x: 10, y: aLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        eL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
+        eL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
         e.frame = CGRect(x: 5, y: -10, width: eLine.frame.width - 10, height: 20)
         //ee.text = "16 2 3 4 5 6 7 8 9 10"
         e.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -101,7 +101,7 @@ class songTableViewCell: UITableViewCell{
         e.adjustsFontSizeToFitWidth = true
         e.sizeToFit()
         eLine.addSubview(e)
-        eLine.addSubview(eL)
+        
         //160
         eLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
         aLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
@@ -109,6 +109,22 @@ class songTableViewCell: UITableViewCell{
         gLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
         bLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
         eeLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
+
+        
+        eL.font = UIFont(name: "Avenir-Regular", size: 12)
+        aL.font = UIFont(name: "Avenir-Regular", size: 12)
+        dL.font = UIFont(name: "Avenir-Regular", size: 12)
+        gL.font = UIFont(name: "Avenir-Regular", size: 12)
+        bL.font = UIFont(name: "Avenir-Regular", size: 12)
+        eeL.font = UIFont(name: "Avenir-Regular", size: 12)
+        eLine.addSubview(eL)
+        aLine.addSubview(aL)
+        dLine.addSubview(dL)
+        gLine.addSubview(gL)
+        bLine.addSubview(bL)
+        eeLine.addSubview(eeL)
+        
+        
         
         addSubview(eLine)
         addSubview(aLine)

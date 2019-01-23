@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UITextViewDelegate{
+class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate{
 
     var songName = String()
     var artistName = String()
@@ -29,6 +29,7 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     var landScape = Bool()
     var navView = UIView()
     var loopButton = UIButton()
+    var infobutton = UIButton()
     var loop = Bool()
     var theDescription = String()
     var infoView = UIView()
@@ -58,6 +59,13 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         singleTap.numberOfTapsRequired = 1
         tableView.addGestureRecognizer(singleTap)
         
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeUp))
+        swipeUp.direction = UISwipeGestureRecognizer.Direction.up
+        self.navView.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeDown))
+        swipeDown.direction = UISwipeGestureRecognizer.Direction.down
+        self.navView.addGestureRecognizer(swipeDown)
         
         self.view.backgroundColor = .white
         
@@ -80,9 +88,9 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         label.attributedText = song
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-        let infobutton = UIButton(frame: CGRect(x: self.view.bounds.width - 30, y: label.frame.midY - 10, width: 25, height: 25))
+        infobutton = UIButton(frame: CGRect(x: self.view.bounds.width - 30, y: label.frame.midY - 10, width: 25, height: 25))
         infobutton.setImage(#imageLiteral(resourceName: "icons8-info-50"), for: .normal)
-        infobutton.addTarget(self, action:#selector(self.infoPressed), for: .touchUpInside)
+        infobutton.addTarget(self, action:#selector(self.swipeDown), for: .touchUpInside)
         let backbutton = UIButton(frame: CGRect(x: 2.5, y: label.frame.midY - 15, width: 25, height: 25))
         if(landScape)
         {
@@ -141,75 +149,89 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     }
     @objc func infoPressed()
     {
-        infoView = UIView()
-        infoView.frame = CGRect(x: 30, y: self.view.bounds.height * 0.2, width: self.view.bounds.width - 60, height: self.view.bounds.height * 0.6)
-        infoView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).withAlphaComponent(0.9)
-        infoView.layer.cornerRadius = 20
+            infoView.removeFromSuperview()
+            infoView.frame = CGRect(x: 25, y: self.view.bounds.height * 0.1, width: self.view.bounds.width - 50, height: self.view.bounds.height * 0.1)
+            infoView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).withAlphaComponent(0.2)
+            infoView.layer.cornerRadius = 15
+//            let closeButton = UIButton()
+//            closeButton.frame = CGRect(x: 5, y: 5, width: 25, height: 25)
+//            closeButton.setImage(#imageLiteral(resourceName: "icons8-cancel-50 (1)").mask(with: #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)), for: .normal)
+//            closeButton.addTarget(self, action:#selector(self.swipeUp), for: .touchUpInside)
         
-        let closeButton = UIButton()
-        closeButton.frame = CGRect(x: 12.5, y: 12.5, width: 25, height: 25)
-        closeButton.setImage(#imageLiteral(resourceName: "icons8-cancel-50 (1)").mask(with: #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)), for: .normal)
-        closeButton.addTarget(self, action:#selector(self.closePressed), for: .touchUpInside)
-        
-        if(discover)
-        {
-            var saveButton = UIButton()
-            if(admin)
+            if(discover)
             {
-                saveButton = UIButton()
-                saveButton.frame = CGRect(x: self.view.bounds.width - 90, y: 12.5, width: 30, height: 30)
-                saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-math-filled-50").mask(with: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)), for: .normal)
-                saveButton.addTarget(self, action:#selector(self.saveAdminPressed), for: .touchUpInside)
-                infoView.addSubview(saveButton)
+                var saveButton = UIButton()
+                if(admin)
+                {
+                    //Admin Button
+                    saveButton = UIButton()
+                    saveButton.frame = CGRect(x: self.view.bounds.width - 90, y: 5, width: 30, height: 30)
+                    saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-math-filled-50").mask(with: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)), for: .normal)
+                    saveButton.addTarget(self, action:#selector(self.saveAdminPressed), for: .touchUpInside)
+                    infoView.addSubview(saveButton)
+                }else{
+                    saveButton = UIButton()
+                    saveButton.frame = CGRect(x: self.infoView.bounds.width - 30, y: 5, width: 25, height: 25)
+                    saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-50").mask(with: #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)), for: .normal)
+                    saveButton.addTarget(self, action:#selector(self.savePressed), for: .touchUpInside)
+                    infoView.addSubview(saveButton)
+                }
             }else{
-                saveButton = UIButton()
-                saveButton.frame = CGRect(x: self.view.bounds.width - 90, y: 12.5, width: 25, height: 25)
-                saveButton.setImage(#imageLiteral(resourceName: "icons8-plus-50"), for: .normal)
-                saveButton.addTarget(self, action:#selector(self.savePressed), for: .touchUpInside)
-                infoView.addSubview(saveButton)
+                let deleteButton = UIButton(frame: CGRect(x: self.infoView.bounds.width - 70, y: 5, width: 70, height: 20))
+                deleteButton.backgroundColor = .clear
+                deleteButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18.0)
+                deleteButton.setTitleColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), for: .normal)
+                deleteButton.setTitle("Delete", for: .normal)
+                deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
+                deleteButton.addTarget(self, action:#selector(self.deletePressed), for: .touchUpInside)
+                infoView.addSubview(deleteButton)
+                
             }
-        }else{
-            let deleteButton = UIButton(frame: CGRect(x: self.view.bounds.width - 150, y: 12.5, width: 70, height: 30))
-            deleteButton.backgroundColor = .clear
-            deleteButton.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18.0)
-            deleteButton.setTitleColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), for: .normal)
-            deleteButton.setTitle("Delete Song", for: .normal)
-            deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
-            deleteButton.addTarget(self, action:#selector(self.deletePressed), for: .touchUpInside)
-            infoView.addSubview(deleteButton)
             
-        }
-        
-        
-        let desctextView  = UITextView()
-        desctextView.frame = CGRect(x: 10, y: 35, width: infoView.bounds.width - 20, height: infoView.bounds.height - 40)
-        desctextView.delegate = self
-        desctextView.textAlignment = .left
-        desctextView.textColor = UIColor.black
-        desctextView.text = theDescription
-        if(theDescription == "")
-        {
-            desctextView.text = "No description provided for this song."
-        }
-        desctextView.font = UIFont(name: "Avenir-Book", size: 20)
-        desctextView.isSelectable = true
-        desctextView.layer.cornerRadius = 10
-        desctextView.autocorrectionType = .yes
-        desctextView.spellCheckingType = UITextSpellCheckingType.yes
-        desctextView.isEditable = false
-        desctextView.keyboardType = UIKeyboardType.default
-        desctextView.returnKeyType = .done
-        
-        desctextView.backgroundColor = .clear
-        //desctextView.layer.cornerRadius = 10
-        //desctextView.layer.borderWidth = 2
-        //desctextView.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        infoView.addSubview(closeButton)
-        infoView.addSubview(desctextView)
-        self.view.addSubview(infoView)
-        
+            
+            let desctextView  = UILabel()
+            desctextView.frame = CGRect(x: 5, y: 0, width: infoView.bounds.width - 10, height: self.view.bounds.height * 0.1)
+            desctextView.textAlignment = .left
+            desctextView.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            desctextView.text = theDescription
+            if(theDescription == "")
+            {
+                desctextView.text = "No description provided for this song."
+            }
+            desctextView.font = UIFont(name: "Avenir-Book", size: 20)
+            desctextView.layer.cornerRadius = 10
+            desctextView.backgroundColor = .clear
+            desctextView.adjustsFontSizeToFitWidth = true
+            //infoView.addSubview(closeButton)
+            infoView.addSubview(desctextView)
+            self.navView.addSubview(infoView)
     }
     
+    @objc func swipeUp()
+    {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.navView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.1)
+            self.tableView.frame = CGRect(x: 0, y: self.view.bounds.height * 0.1, width: self.view.bounds.width, height: self.view.bounds.height - (self.view.bounds.height * 0.1 + 50))
+            
+        }, completion: { (finished: Bool) in
+            self.infobutton.addTarget(self, action:#selector(self.swipeDown), for: .touchUpInside)
+            self.infoView.removeFromSuperview()
+        })
+    }
+    
+    @objc func swipeDown()
+    {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.navView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.2)
+            self.tableView.frame = CGRect(x: 0, y: self.view.bounds.height * 0.2, width: self.view.bounds.width, height: self.view.bounds.height - (self.view.bounds.height * 0.2 + 50))
+            
+            
+        }, completion: { (finished: Bool) in
+            self.infobutton.addTarget(self, action:#selector(self.swipeUp), for: .touchUpInside)
+            self.infoPressed()
+        })
+        
+    }
     
     @objc func deletePressed()
     {
@@ -293,12 +315,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         self.present(controller, animated: false, completion: nil)
     }
     
-    @objc func closePressed()
-    {
-        //infoView = UIView()
-        
-        infoView.removeFromSuperview()
-    }
     
     @objc func playPressed()
     {
@@ -429,7 +445,6 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell") as! songTableViewCell
-        
         if(indexPath.row<theSong.count)
         {
             

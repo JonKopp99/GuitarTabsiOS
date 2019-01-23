@@ -17,9 +17,9 @@ class savedCellTableViewCell: UITableViewCell{
     override func layoutSubviews() {
         
         
-        nameOfSong.frame = CGRect(x: 15, y: 10, width: frame.width, height: 50)
-        nameOfArtist.frame = CGRect(x: 15, y: nameOfSong.frame.maxY, width: frame.width, height: 50)
-        difficulty.frame = CGRect(x: 15, y: nameOfArtist.frame.maxY, width: frame.width, height: 50)
+        nameOfSong.frame = CGRect(x: 15, y: 10, width: frame.width - 30, height: 50)
+        nameOfArtist.frame = CGRect(x: 15, y: nameOfSong.frame.maxY, width: frame.width - 30, height: 50)
+        difficulty.frame = CGRect(x: 15, y: nameOfArtist.frame.maxY, width: frame.width - 30, height: 50)
         
         nameOfSong.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         nameOfArtist.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)

@@ -10,14 +10,20 @@ import UIKit
 
 class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     var ArtistTextField = UITextField()
+    var artistLabel = UILabel()
     var SongTextField = UITextField()
+    var songLabel = UILabel()
     var difficulty = String()
     var errorMSG = UILabel()
 
     var begButton = UIButton()
     var intButton = UIButton()
     var expButton = UIButton()
+    var doneButton = UIButton()
     var desctextView = UITextView()
+    var descField = UITextField()
+    var descLabel = UILabel()
+    var guitar = UIImageView()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -40,24 +46,34 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         self.view.addSubview(navView)
         
         SongTextField.frame = CGRect(x: 50, y: navView.frame.maxY + 20, width: view.bounds.width - 100, height: 50)
-        SongTextField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         SongTextField.isEnabled = true
         //SongTextField.placeholder = "Song name."
         SongTextField.attributedPlaceholder = NSAttributedString(string: "Song name.",
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)])
-        SongTextField.font = UIFont(name: "AvenirNext-Medium", size: 25)
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
+        SongTextField.font = UIFont(name: "Avenir-Book", size: 25)
         SongTextField.autocorrectionType = UITextAutocorrectionType.yes
         SongTextField.keyboardType = UIKeyboardType.default
         SongTextField.returnKeyType = UIReturnKeyType.done
         SongTextField.clearButtonMode = UITextField.ViewMode.whileEditing;
         SongTextField.contentVerticalAlignment = .center
         SongTextField.delegate = self
-        SongTextField.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        SongTextField.layer.cornerRadius = 10
-        SongTextField.layer.borderWidth = 2
-        SongTextField.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        SongTextField.backgroundColor = .clear
+        //SongTextField.layer.cornerRadius = 25
+        //SongTextField.layer.borderWidth = 2
+        //SongTextField.layer.borderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        SongTextField.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         SongTextField.textAlignment = .center
         SongTextField.adjustsFontSizeToFitWidth = true
+        
+        let songLine = UIView()
+        songLine.frame = CGRect(x: 0, y: SongTextField.frame.height - 12, width: SongTextField.frame.width, height: 2)
+        songLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        songLabel.frame = CGRect(x: SongTextField.frame.maxX + 5, y: SongTextField.frame.midY - 12.5, width: 40, height: 25)
+        songLabel.text = "0/30"
+        songLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        songLabel.font = UIFont(name: "Avenir", size: 12)
+        self.view.addSubview(songLabel)
+        SongTextField.addSubview(songLine)
         self.view.addSubview(SongTextField)
         
         
@@ -66,21 +82,83 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         ArtistTextField.isEnabled = true
         //ArtistTextField.placeholder = "Artist name."
         ArtistTextField.attributedPlaceholder = NSAttributedString(string: "Artist name.",
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)])
-        ArtistTextField.font = UIFont(name: "AvenirNext-Medium", size: 25)
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
+        ArtistTextField.font = UIFont(name: "Avenir-Book", size: 25)
         ArtistTextField.autocorrectionType = UITextAutocorrectionType.yes
         ArtistTextField.keyboardType = UIKeyboardType.default
         ArtistTextField.returnKeyType = UIReturnKeyType.done
         ArtistTextField.clearButtonMode = UITextField.ViewMode.whileEditing;
         ArtistTextField.contentVerticalAlignment = .center
         ArtistTextField.delegate = self
-        ArtistTextField.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        ArtistTextField.layer.cornerRadius = 10
-        ArtistTextField.layer.borderWidth = 2
-        ArtistTextField.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        ArtistTextField.backgroundColor = .clear
+        //ArtistTextField.layer.cornerRadius = 25
+        //ArtistTextField.layer.borderWidth = 2
+        //ArtistTextField.layer.borderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         ArtistTextField.textAlignment = .center
+        ArtistTextField.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         ArtistTextField.adjustsFontSizeToFitWidth = true
+        
+        let aLine = UIView()
+        aLine.frame = CGRect(x: 0, y: ArtistTextField.frame.height - 12, width: ArtistTextField.frame.width, height: 2)
+        aLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
+        
+        artistLabel.frame = CGRect(x: ArtistTextField.frame.maxX + 5, y: ArtistTextField.frame.midY - 12.5, width: 40, height: 25)
+        artistLabel.text = "0/30"
+        artistLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        artistLabel.font = UIFont(name: "Avenir", size: 12)
+        self.view.addSubview(artistLabel)
+        ArtistTextField.addSubview(aLine)
         self.view.addSubview(ArtistTextField)
+        
+        doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
+        doneButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        doneButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
+        doneButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        doneButton.setTitle("Done", for: .normal)
+        doneButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        doneButton.addTarget(self, action:#selector(self.donePressed), for: .touchUpInside)
+        doneButton.layer.cornerRadius = 20
+        doneButton.layer.borderWidth = 2
+        doneButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        self.view.addSubview(doneButton)
+        
+        descField.frame = CGRect(x: 50, y: doneButton.frame.minY - 55, width: view.bounds.width - 100, height: 50)
+        descField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        descField.isEnabled = true
+        //ArtistTextField.placeholder = "Artist name."
+        descField.attributedPlaceholder = NSAttributedString(string: "Additional song information.",
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
+        descField.font = UIFont(name: "Avenir-Book", size: 18)
+        descField.autocorrectionType = UITextAutocorrectionType.yes
+        descField.keyboardType = UIKeyboardType.default
+        descField.returnKeyType = UIReturnKeyType.done
+        descField.clearButtonMode = UITextField.ViewMode.whileEditing;
+        descField.contentVerticalAlignment = .center
+        descField.delegate = self
+        descField.backgroundColor = .clear
+//        descField.layer.cornerRadius = 25
+//        descField.layer.borderWidth = 2
+//        descField.layer.borderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        descField.textAlignment = .center
+        descField.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        descField.adjustsFontSizeToFitWidth = true
+        
+        
+        let dLine = UIView()
+        dLine.frame = CGRect(x: 0, y: descField.frame.height - 12, width: ArtistTextField.frame.width, height: 2)
+        dLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
+        
+        descLabel.frame = CGRect(x: descField.frame.maxX + 5, y: descField.frame.midY - 12.5, width: 40, height: 25)
+        descLabel.text = "0/50"
+        descLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        descLabel.font = UIFont(name: "Avenir", size: 12)
+        self.view.addSubview(descLabel)
+        descField.addSubview(dLine)
+        self.view.addSubview(descField)
+        
+        
         
         begButton = UIButton(frame: CGRect(x: 10, y: ArtistTextField.frame.maxY + 10, width: view.bounds.width * 0.3, height: 50))
         begButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
@@ -89,7 +167,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         begButton.setTitle("Beginner", for: .normal)
         begButton.setTitleColor(#colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1), for: .normal)
         begButton.addTarget(self, action:#selector(self.begPressed), for: .touchUpInside)
-        begButton.layer.cornerRadius = 20
+        begButton.layer.cornerRadius = 25
         begButton.layer.borderWidth = 2
         begButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(begButton)
@@ -101,7 +179,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         intButton.setTitle("Intermediate", for: .normal)
         intButton.setTitleColor(#colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1), for: .normal)
         intButton.addTarget(self, action:#selector(self.intPressed), for: .touchUpInside)
-        intButton.layer.cornerRadius = 20
+        intButton.layer.cornerRadius = 25
         intButton.layer.borderWidth = 2
         intButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(intButton)
@@ -113,52 +191,15 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         expButton.setTitle("Expert", for: .normal)
         expButton.setTitleColor(#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), for: .normal)
         expButton.addTarget(self, action:#selector(self.expPressed), for: .touchUpInside)
-        expButton.layer.cornerRadius = 20
+        expButton.layer.cornerRadius = 25
         expButton.layer.borderWidth = 2
         expButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.view.addSubview(expButton)
         
-        desctextView  = UITextView(frame: CGRect(x: 10, y: intButton.frame.maxY + 35, width: self.view.bounds.width - 20, height: self.view.bounds.height - (intButton.frame.maxY + (navView.bounds.height)) - 80))
-        desctextView.delegate = self
-        desctextView.textAlignment = .left
-        desctextView.textColor = UIColor.darkGray
-        desctextView.text = "Enter any additional song information. (e.g., Capo 2nd fret)"
-        desctextView.font = UIFont(name: "Avenir-Book", size: 20)
-        desctextView.isSelectable = true
-        desctextView.layer.cornerRadius = 10
-        desctextView.autocorrectionType = .yes
-        desctextView.spellCheckingType = UITextSpellCheckingType.yes
-        desctextView.isEditable = true
-        desctextView.keyboardType = UIKeyboardType.default
-        desctextView.returnKeyType = .done
-        
-        desctextView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        desctextView.layer.cornerRadius = 10
-        desctextView.layer.borderWidth = 2
-        desctextView.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        
-        self.view.addSubview(desctextView)
-        
-        let doneButton = UIButton(frame: CGRect(x: 100, y: self.view.bounds.height - 70, width: view.bounds.width - 200, height: 50))
-        doneButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        doneButton.titleLabel?.font = UIFont(name: "AvenirNext-Heavy", size: 20.0)
-        doneButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        doneButton.setTitle("Done", for: .normal)
-        doneButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        doneButton.addTarget(self, action:#selector(self.donePressed), for: .touchUpInside)
-        doneButton.layer.cornerRadius = 20
-        doneButton.layer.borderWidth = 2
-        doneButton.layer.borderColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        self.view.addSubview(doneButton)
-    }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        let theTabBar = TabBarVC()
-//        TabBarVC.currentSelected = "Add"
-//        theTabBar.loadViewIfNeeded()
-//        self.view.addSubview(theTabBar.view)
-//        self.addChild(theTabBar)
+        errorMSG.frame = CGRect(x: 10, y: intButton.frame.maxY, width: self.view.bounds.width - 20, height: 30)
         
+        drawGuitar()
     }
     
     @objc func backPressed()
@@ -169,13 +210,16 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     @objc func begPressed()
     {
         difficulty = "Beginner"
+        guitar.image = #imageLiteral(resourceName: "onlyLogo").mask(with: #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1))
         begButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         expButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         intButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        
     }
     @objc func intPressed()
     {
         difficulty = "Intermediate"
+        guitar.image = #imageLiteral(resourceName: "onlyLogo").mask(with: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1))
         begButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         expButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         intButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
@@ -183,6 +227,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     @objc func expPressed()
     {
         difficulty = "Expert"
+        guitar.image = #imageLiteral(resourceName: "onlyLogo").mask(with: #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1))
         begButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         intButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         expButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
@@ -207,11 +252,11 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
             controller.artistName = ArtistTextField.text!
             controller.songName = SongTextField.text!
             controller.difficulty = difficulty
-            if(desctextView.text == "Enter any additional song information. (e.g., Capo 2nd fret)")
+            if(descField.text == "Additional song information.")
             {
-                desctextView.text = ""
+                descField.text = ""
             }
-            controller.theDescription = desctextView.text
+            controller.theDescription = descField.text!
             self.present(controller, animated: false, completion: nil)
         }
         errorMSG.frame = CGRect(x: 10, y: intButton.frame.maxY, width: self.view.bounds.width - 20, height: 30)
@@ -233,41 +278,77 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         
         super.touchesBegan(touches,  with: event)
     }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        checkMaxLength(textField: textField)
+        let newLength = (textField.text!.count) + (string.count) - range.length
+        if(textField == SongTextField)
+        {
+            songLabel.text = "\(String(newLength))/30"
+        }else if(textField == ArtistTextField)
+        {
+            artistLabel.text = "\(String(newLength))/30"
+        }else
+        {
+            descLabel.text = "\(String(newLength))/50"
+        }
+        return true
+    }
+
+    func checkMaxLength(textField: UITextField!) {
+        if(textField == descField)
+        {
+        if (textField.text!.count >= 50) {
+            textField.deleteBackward()
+        }
+        }else{
+            if (textField.text!.count >= 30) {
+                textField.deleteBackward()
+            }
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if(textField == descField)
+        {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.descField.frame = CGRect(x: 50, y: self.errorMSG.frame.maxY + 10, width: self.view.bounds.width - 100, height: 50)
+                self.descLabel.frame = CGRect(x: self.descField.frame.maxX + 5, y: (self.errorMSG.frame.maxY) + 22.5, width: 40, height: 25)
+                
+                
+                })
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if(textField == descField)
+        {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.descField.frame = CGRect(x: 50, y: self.doneButton.frame.minY - 55, width: self.view.bounds.width - 100, height: 50)
+                self.descLabel.frame = CGRect(x: self.descField.frame.maxX + 5, y: self.descField.frame.midY - 12.5, width: 40, height: 25)
+                
+                
+            })
+        }
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         return true
     }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if desctextView.textColor == UIColor.darkGray {
-            desctextView.text = ""
-            desctextView.textColor = UIColor.black
-        }
+    
+    
+    func drawGuitar()
+    {
+        let gwidth = self.view.bounds.width
+        
+        let gy = self.view.bounds.height - (errorMSG.frame.maxY + (self.doneButton.frame.height))
+        let gheight = gy
+        guitar.contentMode = .scaleAspectFit
+        guitar.image = #imageLiteral(resourceName: "onlyLogo").mask(with: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1))
+        guitar.frame = CGRect(x: self.view.bounds.width/2 - gwidth/2, y: doneButton.frame.minY - gy, width: gwidth, height: gheight)
+        self.view.addSubview(guitar)
     }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if(desctextView.text == "")
-        {
-            desctextView.textColor = UIColor.darkGray
-            desctextView.text = ("Enter any additional song information. (e.g., Capo 2nd fret)")
-            return
-        }
-        return
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

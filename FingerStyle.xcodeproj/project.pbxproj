@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3709F6543B03B27CE43D9FAD /* Pods_FingerStyle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E6A522D7DFD7E1A0F16AD9 /* Pods_FingerStyle.framework */; };
+		AB3914A521EFEDF40015C9C0 /* oldSongVC in Resources */ = {isa = PBXBuildFile; fileRef = AB3914A421EFEDF40015C9C0 /* oldSongVC */; };
 		AB4668D221E45A9B00C3BA55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668D121E45A9B00C3BA55 /* AppDelegate.swift */; };
 		AB4668D421E45A9B00C3BA55 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668D321E45A9B00C3BA55 /* TabBarVC.swift */; };
 		AB4668D721E45A9B00C3BA55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB4668D521E45A9B00C3BA55 /* Main.storyboard */; };
@@ -23,6 +24,9 @@
 		AB4668F521E5726200C3BA55 /* SongVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668F421E5726200C3BA55 /* SongVC.swift */; };
 		AB4668F721E5749700C3BA55 /* songTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668F621E5749700C3BA55 /* songTableViewCell.swift */; };
 		AB4668FA21E5B81C00C3BA55 /* SongObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4668F921E5B81C00C3BA55 /* SongObj.swift */; };
+		AB524D1E21F429A100692D89 /* oldCreateVC in Resources */ = {isa = PBXBuildFile; fileRef = AB524D1D21F429A100692D89 /* oldCreateVC */; };
+		AB524D2221F7A0D400692D89 /* noto-mono.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB524D2121F79FC900692D89 /* noto-mono.regular.ttf */; };
+		AB524D2321F7A0D700692D89 /* liberation-mono.bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB524D2021F79E5A00692D89 /* liberation-mono.bold.ttf */; };
 		AB98E5B021E67B1A00806C88 /* SongTabObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5AF21E67B1A00806C88 /* SongTabObj.swift */; };
 		AB98E5B221E71CF100806C88 /* CreateSongVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5B121E71CF100806C88 /* CreateSongVC.swift */; };
 		AB98E5B421E7FAF600806C88 /* CreateViewDone.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98E5B321E7FAF600806C88 /* CreateViewDone.swift */; };
@@ -38,6 +42,7 @@
 		207FAF9986184CCC62BF64F2 /* Pods-FingerStyle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerStyle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle.debug.xcconfig"; sourceTree = "<group>"; };
 		5C2661A7632161F22B01A01D /* Pods-FingerStyle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerStyle.release.xcconfig"; path = "Pods/Target Support Files/Pods-FingerStyle/Pods-FingerStyle.release.xcconfig"; sourceTree = "<group>"; };
 		78E6A522D7DFD7E1A0F16AD9 /* Pods_FingerStyle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FingerStyle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB3914A421EFEDF40015C9C0 /* oldSongVC */ = {isa = PBXFileReference; lastKnownFileType = text; path = oldSongVC; sourceTree = "<group>"; };
 		AB4668CE21E45A9B00C3BA55 /* FingerStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4668D121E45A9B00C3BA55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB4668D321E45A9B00C3BA55 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
@@ -55,6 +60,9 @@
 		AB4668F421E5726200C3BA55 /* SongVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongVC.swift; sourceTree = "<group>"; };
 		AB4668F621E5749700C3BA55 /* songTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = songTableViewCell.swift; sourceTree = "<group>"; };
 		AB4668F921E5B81C00C3BA55 /* SongObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongObj.swift; sourceTree = "<group>"; };
+		AB524D1D21F429A100692D89 /* oldCreateVC */ = {isa = PBXFileReference; lastKnownFileType = text; path = oldCreateVC; sourceTree = "<group>"; };
+		AB524D2021F79E5A00692D89 /* liberation-mono.bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "liberation-mono.bold.ttf"; path = "../../../../../Downloads/liberation-mono.bold.ttf"; sourceTree = "<group>"; };
+		AB524D2121F79FC900692D89 /* noto-mono.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "noto-mono.regular.ttf"; path = "../../../../../Downloads/noto-mono.regular.ttf"; sourceTree = "<group>"; };
 		AB98E5AF21E67B1A00806C88 /* SongTabObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTabObj.swift; sourceTree = "<group>"; };
 		AB98E5B121E71CF100806C88 /* CreateSongVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSongVC.swift; sourceTree = "<group>"; };
 		AB98E5B321E7FAF600806C88 /* CreateViewDone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewDone.swift; sourceTree = "<group>"; };
@@ -121,6 +129,7 @@
 				AB4668EE21E4746D00C3BA55 /* ViewControllers */,
 				AB4668D121E45A9B00C3BA55 /* AppDelegate.swift */,
 				AB4668DB21E45A9C00C3BA55 /* Assets.xcassets */,
+				AB524D1F21F79E4600692D89 /* fonts */,
 				AB4668D521E45A9B00C3BA55 /* Main.storyboard */,
 				AB4668DD21E45A9C00C3BA55 /* LaunchScreen.storyboard */,
 				AB4668E021E45A9C00C3BA55 /* Info.plist */,
@@ -146,6 +155,8 @@
 				AB98E5BF21EB2E1900806C88 /* aboutUsVC.swift */,
 				AB98E5C221EBC45F00806C88 /* ContactVC.swift */,
 				AB98E5C421EBC8E100806C88 /* HowToVC.swift */,
+				AB3914A421EFEDF40015C9C0 /* oldSongVC */,
+				AB524D1D21F429A100692D89 /* oldCreateVC */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -167,6 +178,15 @@
 				AB98E5AF21E67B1A00806C88 /* SongTabObj.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		AB524D1F21F79E4600692D89 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AB524D2121F79FC900692D89 /* noto-mono.regular.ttf */,
+				AB524D2021F79E5A00692D89 /* liberation-mono.bold.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,8 +252,12 @@
 				AB4668DF21E45A9C00C3BA55 /* LaunchScreen.storyboard in Resources */,
 				AB4668DC21E45A9C00C3BA55 /* Assets.xcassets in Resources */,
 				AB98E5B921E87C1400806C88 /* GoogleService-Info.plist in Resources */,
+				AB524D1E21F429A100692D89 /* oldCreateVC in Resources */,
 				AB4668F021E4829800C3BA55 /* TODO in Resources */,
+				AB3914A521EFEDF40015C9C0 /* oldSongVC in Resources */,
+				AB524D2321F7A0D700692D89 /* liberation-mono.bold.ttf in Resources */,
 				AB4668D721E45A9B00C3BA55 /* Main.storyboard in Resources */,
+				AB524D2221F7A0D400692D89 /* noto-mono.regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
