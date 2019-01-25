@@ -31,9 +31,9 @@ class songTableViewCell: UITableViewCell{
         let eeL = UILabel(); eeL.text = "e";eeL.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1);eeL.adjustsFontSizeToFitWidth = true
         
         //eadgbe ebgdae
-        eeLine.frame = CGRect(x: 10, y: 45, width: frame.width-20, height: 2.5)
-        eeL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        ee.frame = CGRect(x: 5, y: -10, width: eeLine.frame.width - 10, height: 20)
+        eeLine.frame = CGRect(x: 15, y: 45, width: frame.width-30, height: 2.5)
+        eeL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        ee.frame = CGRect(x: 10, y: -10, width: eeLine.frame.width - 20, height: 20)
        // e.text = "1 2 3 4 5 6 7 8 9 10"
         ee.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         ee.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -43,9 +43,9 @@ class songTableViewCell: UITableViewCell{
         eeLine.addSubview(ee)
         
         
-        bLine.frame = CGRect(x: 10, y: eeLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        bL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        b.frame = CGRect(x: 5, y: -10, width: bLine.frame.width - 10, height: 20)
+        bLine.frame = CGRect(x: 15, y: eeLine.frame.maxY + 20, width: frame.width-30, height: 2.5)
+        bL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        b.frame = CGRect(x: 10, y: -10, width: bLine.frame.width - 20, height: 20)
         //a.text = "12 2 3 4 5 6 7 8 9 10"
         b.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         b.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -55,9 +55,9 @@ class songTableViewCell: UITableViewCell{
         bLine.addSubview(b)
         
         
-        gLine.frame = CGRect(x: 10, y: bLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        gL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        g.frame = CGRect(x: 5, y: -10, width: gLine.frame.width - 10, height: 20)
+        gLine.frame = CGRect(x: 15, y: bLine.frame.maxY + 20, width: frame.width-30, height: 2.5)
+        gL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        g.frame = CGRect(x: 10, y: -10, width: gLine.frame.width - 20, height: 20)
         //d.text = "13 2 3 4 5 6 7 8 9 10"
         g.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         g.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -67,9 +67,9 @@ class songTableViewCell: UITableViewCell{
         gLine.addSubview(g)
         
         
-        dLine.frame = CGRect(x: 10, y: gLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        dL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        d.frame = CGRect(x: 5, y: -10, width: dLine.frame.width - 10, height: 20)
+        dLine.frame = CGRect(x: 15, y: gLine.frame.maxY + 20, width: frame.width-30, height: 2.5)
+        dL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        d.frame = CGRect(x: 10, y: -10, width: dLine.frame.width - 20, height: 20)
         //g.text = "14 2 3 4 5 6 7 8 9 10"
         d.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         d.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -79,9 +79,9 @@ class songTableViewCell: UITableViewCell{
         dLine.addSubview(d)
         
         
-        aLine.frame = CGRect(x: 10, y: dLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        aL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        a.frame = CGRect(x: 5, y: -10, width: aLine.frame.width - 10, height: 20)
+        aLine.frame = CGRect(x: 15, y: dLine.frame.maxY + 20, width: frame.width-30, height: 2.5)
+        aL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        a.frame = CGRect(x: 10, y: -10, width: aLine.frame.width - 20, height: 20)
         //b.text = "15 2 3 4 5 6 7 8 9 10"
         a.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         a.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -91,9 +91,9 @@ class songTableViewCell: UITableViewCell{
         aLine.addSubview(a)
         
         
-        eLine.frame = CGRect(x: 10, y: aLine.frame.maxY + 20, width: frame.width-20, height: 2.5)
-        eL.frame = CGRect(x: -7, y: -10, width: 15, height: 20)
-        e.frame = CGRect(x: 5, y: -10, width: eLine.frame.width - 10, height: 20)
+        eLine.frame = CGRect(x: 15, y: aLine.frame.maxY + 20, width: frame.width-30, height: 2.5)
+        eL.frame = CGRect(x: -12, y: -10, width: 15, height: 20)
+        e.frame = CGRect(x: 10, y: -10, width: eLine.frame.width - 20, height: 20)
         //ee.text = "16 2 3 4 5 6 7 8 9 10"
         e.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         e.font = UIFont(name: "CourierNewPS-BoldMT", size: 20)
@@ -111,12 +111,12 @@ class songTableViewCell: UITableViewCell{
         eeLine.backgroundColor = #colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1)
 
         
-        eL.font = UIFont(name: "Avenir-Regular", size: 12)
-        aL.font = UIFont(name: "Avenir-Regular", size: 12)
-        dL.font = UIFont(name: "Avenir-Regular", size: 12)
-        gL.font = UIFont(name: "Avenir-Regular", size: 12)
-        bL.font = UIFont(name: "Avenir-Regular", size: 12)
-        eeL.font = UIFont(name: "Avenir-Regular", size: 12)
+        eL.font = UIFont(name: "Courier", size: 20)
+        aL.font = UIFont(name: "Courier", size: 20)
+        dL.font = UIFont(name: "Courier", size: 20)
+        gL.font = UIFont(name: "Courier", size: 20)
+        bL.font = UIFont(name: "Courier", size: 20)
+        eeL.font = UIFont(name: "Courier", size: 20)
         eLine.addSubview(eL)
         aLine.addSubview(aL)
         dLine.addSubview(dL)

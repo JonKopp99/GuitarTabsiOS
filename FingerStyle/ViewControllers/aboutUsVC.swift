@@ -46,7 +46,7 @@ class aboutUsVC: UIViewController, UITextViewDelegate {
         
         selfie.frame = CGRect(x: self.view.bounds.width/2 - 75, y: self.navView.frame.maxY + 10, width: 150, height: 150)
         selfie.setImage(#imageLiteral(resourceName: "willThisWork"), for: .normal)
-        selfie.contentMode = .scaleAspectFit
+        selfie.contentMode = .scaleAspectFill
         selfie.layer.cornerRadius = 75
         selfie.layer.borderWidth = 5
         selfie.clipsToBounds = true
