@@ -267,7 +267,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int(((self.view.bounds.width / 20) / 2))
+        return Int(((self.view.bounds.width / 20) / 2) + 1)
         
     }
     func getAmountOfLines() -> Int
@@ -279,7 +279,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func spacingBetweenNotes()->String
     {
-        return "  "
+        return "   "
     }
     
     
@@ -390,9 +390,9 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     func addSpacing()
     {
         //let spacing = spacingBetweenNotes()
-        let spacing2 = spacingBetweenNotes()
-        //spacing2.removeLast()
-        //spacing2.removeLast()
+        var spacing2 = spacingBetweenNotes()
+        spacing2.removeLast()
+        spacing2.removeLast()
         for i in theSong
         {
             for k in 0 ..< i.theE.count - 1

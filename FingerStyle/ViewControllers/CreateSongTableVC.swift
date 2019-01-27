@@ -22,7 +22,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createTempSong()
+        print("THIS IS WHAT WE BE OOKING FOR", fullSong.theE)
         self.view.backgroundColor = .white
         self.view.frame = size
         tableView.register(createSongTableViewCell.self, forCellReuseIdentifier: "createsongCell")
@@ -46,13 +46,13 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         if(indexPath.row<theSong.count)
         {
-            
-            cell.e.text = theSong[indexPath.row].e
-            cell.a.text = theSong[indexPath.row].a
-            cell.d.text = theSong[indexPath.row].d
-            cell.g.text = theSong[indexPath.row].g
-            cell.b.text = theSong[indexPath.row].b
-            cell.ee.text = theSong[indexPath.row].ee
+            let theSize = theSong.count - 1
+            cell.e.text = theSong[theSize - indexPath.row].e
+            cell.a.text = theSong[theSize - indexPath.row].a
+            cell.d.text = theSong[theSize - indexPath.row].d
+            cell.g.text = theSong[theSize - indexPath.row].g
+            cell.b.text = theSong[theSize - indexPath.row].b
+            cell.ee.text = theSong[theSize - indexPath.row].ee
             
             
         }
@@ -74,7 +74,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int((self.view.bounds.width / 20) / 2)
+        return Int(((self.view.bounds.width / 20) / 2) + 1)
         
     }
     func getAmountOfLines() -> Int
@@ -86,7 +86,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func spacingBetweenNotes()->String
     {
-        return "  "
+        return "   "
     }
     
     
@@ -211,9 +211,9 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func addSpacing()
     {
         //let spacing = spacingBetweenNotes()
-        let spacing2 = spacingBetweenNotes()
-        //spacing2.removeLast()
-        //spacing2.removeLast()
+        var spacing2 = spacingBetweenNotes()
+        spacing2.removeLast()
+        spacing2.removeLast()
         for i in theSong
         {
             for k in 0 ..< i.theE.count - 1

@@ -242,17 +242,17 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         b.text = ""
         ee.text = ""
         
-        
-        songTable.removeFromParent()
-        songTable = CreateSongTableVC()
-        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
-        songTable.fullSong = currentTab
-        songTable.view.frame = theFrame
-        songTable.size = theFrame
-        songTable.viewDidLoad()
-        //songTable.createTempSong()
-        self.addChild(songTable)
-        self.view.addSubview(songTable.view)
+//
+//        songTable.removeFromParent()
+//        songTable = CreateSongTableVC()
+//        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
+//        songTable.fullSong = currentTab
+//        songTable.view.frame = theFrame
+//        songTable.size = theFrame
+//        songTable.viewDidLoad()
+//        //songTable.createTempSong()
+//        self.addChild(songTable)
+//        self.view.addSubview(songTable.view)
         
         
         textViews()
@@ -396,6 +396,17 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         ee.sizeToFit()
         self.eeLine.addSubview(ee)
         }
+        songTable.removeFromParent()
+        songTable = CreateSongTableVC()
+        let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
+        songTable.fullSong = currentTab
+        songTable.view.frame = theFrame
+        songTable.size = theFrame
+        songTable.viewDidLoad()
+        songTable.createTempSong()
+        self.addChild(songTable)
+        self.view.addSubview(songTable.view)
+        
     }
     
     
@@ -476,6 +487,8 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
             bField.removeFromSuperview()
             eeField.removeFromSuperview()
             nextbutton.removeFromSuperview()
+            
+            
             textViews()
         }
     }
