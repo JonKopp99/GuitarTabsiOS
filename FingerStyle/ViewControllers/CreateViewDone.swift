@@ -34,7 +34,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         tableView.frame = CGRect(x: 0, y: navView.frame.maxY + 50, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.maxY + 50))
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         
         
         self.view.backgroundColor = .white
@@ -251,6 +251,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.g.text = theSong[indexPath.row].g
             cell.b.text = theSong[indexPath.row].b
             cell.ee.text = theSong[indexPath.row].ee
+            cell.selectionStyle = .none
             
         }
         
@@ -260,7 +261,14 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 170
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+        if (tableView.cellForRow(at: indexPath) as? songTableViewCell) != nil{
 
+            print(self.theSong[indexPath.row].theE)
+        }
+    }
     
     
 

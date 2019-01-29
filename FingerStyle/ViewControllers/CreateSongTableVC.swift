@@ -39,7 +39,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getAmountOfLines()
+        return theSong.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "createsongCell") as! createSongTableViewCell
@@ -69,12 +69,27 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 170
     }
-    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return "Song Preview"
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let view = view as? UITableViewHeaderFooterView {
+            
+            view.backgroundView?.backgroundColor = .clear
+            view.textLabel!.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            view.textLabel!.font = UIFont(name: "AvenirNextCondensed-Heavy", size: 25.0)
+            view.textLabel!.textAlignment = .center
+        }
+    }
     
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int(((self.view.bounds.width / 20) / 2) + 1)
+        return Int(((self.view.bounds.width / 20) / 2))
         
     }
     func getAmountOfLines() -> Int
@@ -86,7 +101,7 @@ class CreateSongTableVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func spacingBetweenNotes()->String
     {
-        return "   "
+        return "    "
     }
     
     
