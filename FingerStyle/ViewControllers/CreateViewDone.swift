@@ -267,6 +267,18 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (tableView.cellForRow(at: indexPath) as? songTableViewCell) != nil{
 
             print(self.theSong[indexPath.row].theE)
+            
+            let controller = editView()
+            controller.tabs = self.theSong
+            controller.oldTab = (self.theSong[indexPath.row])
+            controller.artistName = self.artistName
+            controller.difficulty = self.difficulty
+            controller.theDescription = self.theDescription
+            controller.songName = self.songName
+            controller.oldTabIndex = indexPath
+            
+            present(controller, animated: false, completion: nil)
+            
         }
     }
     
