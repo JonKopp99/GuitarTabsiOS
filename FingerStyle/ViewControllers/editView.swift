@@ -31,7 +31,7 @@ class editView: UIViewController, UITextFieldDelegate {
     var currentNote = Int()
     var nextbutton = UIButton()
     var doneButton = UIButton()
-    var songTable = CreateSongTableVC()
+    var songTable = editTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -442,7 +442,7 @@ class editView: UIViewController, UITextFieldDelegate {
             if(currentNote == 0)
             {
                 songTable.removeFromParent()
-                songTable = CreateSongTableVC()
+                songTable = editTableView()
                 let theFrame = CGRect(x: 0, y: nextbutton.frame.maxY + 20, width: self.view.bounds.width, height: self.view.bounds.height - (nextbutton.frame.maxY + 100))
                 songTable.fullSong = oldTab
                 songTable.view.frame = theFrame

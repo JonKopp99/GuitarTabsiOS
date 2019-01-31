@@ -287,7 +287,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getNotesPerLine() -> Int
     {
         //Should return how many notes before going to the next line.
-        return Int(((self.view.bounds.width / 20) / 2) + 1)
+        return Int(((self.view.bounds.width / 20) / 2))
         
     }
     func getAmountOfLines() -> Int
