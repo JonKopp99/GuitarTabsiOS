@@ -6,7 +6,9 @@ Are you struggling learning guitar? FingerStyle is a must have app for all guita
 ## Dependencies
 
 -CocoaPods
+
 -Firebase
+
 -DznEmptyDataSet
 
 ## Features
