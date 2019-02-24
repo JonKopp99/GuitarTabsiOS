@@ -38,6 +38,6 @@ Are you struggling learning guitar? FingerStyle is a must have app for all guita
 
 ![](https://lh3.googleusercontent.com/nuARKSPcc7xFEaaTrSQA68TFDiwOE3KbNWurPIv7CY8mG0zHBnrGYhLqUrrPuMpLJX0B0Rhc4cA)
 
-**Create your own song tab for everyone to see!**
+**Create your own song tabs for everyone to see!**
 
 ![](https://lh3.googleusercontent.com/Lpdm1_umN1TebjMchHHdsvT_36SPQFgCKdwcQjmWG-l_EVvlzhFRDVW7DXxiQCuYyh9TG9hbO34)
