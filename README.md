@@ -2,14 +2,11 @@
 
 ## FingerStyle Guitar Tabs
 
-Are you struggling learning guitar? FingerStyle is a must have app for all guitarists. Whether you are a beginner or experienced player. FingerStyle is packed with many tools and features to help you master any guitar song. 
+Are you struggling learning guitar? FingerStyle is a must have app for all guitarists. Whether you are a beginner or experienced player. FingerStyle is packed with many tools and features to help you master any guitar song. Now on the App Store: https://itunes.apple.com/us/app/fingerstyle/id1448802713
+
 ## Dependencies
 
--CocoaPods
-
--Firebase
-
--DznEmptyDataSet
+-CocoaPods, Firebase, DznEmptyDataSet
 
 ## Features
 
