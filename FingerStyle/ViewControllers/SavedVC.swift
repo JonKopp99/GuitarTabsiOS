@@ -145,14 +145,17 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(tableView.cellForRow(at: indexPath) != nil)
         {
-            let controller = SongVC()
-            controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
-            controller.artistName = (songs[indexPath.row].nameOfArtist)
-            controller.difficulty = (songs[indexPath.row].difficulty)
-            controller.theUid = (songs[indexPath.row].uid)
-            controller.fullSong = (songs[indexPath.row].songTab)
-            controller.theDescription = songs[indexPath.row].theDescription!
-            self.present(controller, animated: false, completion: nil)
+            if(!songs[indexPath.row].link!)
+            {
+                let controller = SongVC()
+                controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
+                controller.artistName = (songs[indexPath.row].nameOfArtist)
+                controller.difficulty = (songs[indexPath.row].difficulty)
+                controller.theUid = (songs[indexPath.row].uid)
+                controller.fullSong = (songs[indexPath.row].songTab)
+                controller.theDescription = songs[indexPath.row].theDescription!
+                self.present(controller, animated: false, completion: nil)
+            }
         }
     }
     
@@ -180,6 +183,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 song.nameOfSong = songInfo[6]
                 song.nameOfArtist = songInfo[7]
                 song.difficulty = songInfo[8]
+                song.link = false
                 if(songInfo.count == 10)
                 {
                     song.theDescription = songInfo[9]
@@ -191,7 +195,35 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 
             }
         }
+        loadLinks()
+    }
+    
+    func loadLinks()
+    {
+        let userDefaults = Foundation.UserDefaults.standard
         
+        let thesongs = (userDefaults.stringArray(forKey: "SavedLinks") ?? [String]())
+        if(thesongs.count>=1)
+        {
+            for i in thesongs{
+                let song = SongObj()
+                let songInfo = (userDefaults.stringArray(forKey: i) ?? [String]())
+                song.nameOfSong = songInfo[0]
+                song.nameOfArtist = songInfo[1]
+                song.difficulty = songInfo[2]
+                song.link = true
+                song.theLink = songInfo[3]
+                if(songInfo.count == 5)
+                {
+                    song.theDescription = songInfo[4]
+                }else{
+                    song.theDescription = ""
+                }
+                song.uid = i
+                songs.append(song)
+                
+            }
+        }
     }
     
 }

@@ -483,10 +483,11 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     }
     @objc func backPressed()
     {
-        let controller = CreateVC()
-        controller.ArtistTextField.text = artistName
-        controller.SongTextField.text = songName
-        self.present(controller, animated: false, completion: nil)
+//        let controller = CreateVC()
+//        controller.ArtistTextField.text = artistName
+//        controller.SongTextField.text = songName
+//        self.present(controller, animated: false, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

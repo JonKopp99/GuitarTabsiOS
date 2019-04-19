@@ -299,7 +299,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         {
             errorMSG.text = "Select difficulty."
         }else{
-            let controller = CreateSongVC()
+            let controller = CreateWebCustom()
             controller.artistName = ArtistTextField.text!
             controller.songName = SongTextField.text!
             controller.difficulty = difficulty
@@ -403,4 +403,5 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     }
 
 }
+
 

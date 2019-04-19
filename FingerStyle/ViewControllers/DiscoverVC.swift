@@ -132,16 +132,30 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(tableView.cellForRow(at: indexPath) != nil)
         {
-            let controller = SongVC()
-            controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
-            controller.artistName = (songs[indexPath.row].nameOfArtist)
-            controller.difficulty = (songs[indexPath.row].difficulty)
-            controller.theUid = (songs[indexPath.row].uid)
-            controller.fullSong = (songs[indexPath.row].songTab)
-            controller.theDescription = songs[indexPath.row].theDescription!
-            controller.discover = true
-            controller.admin = admin
-            self.present(controller, animated: false, completion: nil)
+            if(!songs[indexPath.row].link!)
+            {
+                let controller = SongVC()
+                controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
+                controller.artistName = (songs[indexPath.row].nameOfArtist)
+                controller.difficulty = (songs[indexPath.row].difficulty)
+                controller.theUid = (songs[indexPath.row].uid)
+                controller.fullSong = (songs[indexPath.row].songTab)
+                controller.theDescription = songs[indexPath.row].theDescription!
+                controller.discover = true
+                controller.admin = admin
+                self.present(controller, animated: false, completion: nil)
+            }else{
+                let controller = SongLinkVC()
+                controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
+                controller.artistName = (songs[indexPath.row].nameOfArtist)
+                controller.difficulty = (songs[indexPath.row].difficulty)
+                controller.theUid = (songs[indexPath.row].uid)
+                controller.theDescription = songs[indexPath.row].theDescription!
+                controller.discover = true
+                controller.admin = admin
+                controller.theLink = songs[indexPath.row].theLink!
+                self.present(controller, animated: false, completion: nil)
+            }
         }
     }
     
@@ -170,7 +184,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 song.nameOfSong = theValue["theSongName"]
                 song.difficulty = theValue["theDifficulty"]
                 song.uid = theValue["theUid"]
-                
+                song.link = false
                 song.songTab.e = theValue["e"]
                 song.songTab.a = theValue["a"]
                 song.songTab.d = theValue["d"]
@@ -190,8 +204,44 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
             self.tableView.reloadData()
         })
-        
-        //}
+        loadLinks()
+    }
+    
+    func loadLinks()
+    {
+        var ref = Database.database().reference().child("Links")
+        if(admin)
+        {
+            ref = Database.database().reference().child("Links")
+        }
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            
+            if !snapshot.exists() {
+                return }
+            let test = snapshot.value as! [String : AnyObject]
+            for(_, value) in test
+            {
+                let theValue = value as! [String : String]
+                let song = SongObj()
+                song.nameOfArtist = theValue["theArtist"]
+                song.nameOfSong = theValue["theSongName"]
+                song.difficulty = theValue["theDifficulty"]
+                song.uid = theValue["theUid"]
+                song.link = true
+                song.theLink = theValue["theLink"]
+                
+                if let desc = theValue["theDescription"]
+                {
+                    song.theDescription = desc
+                }else
+                {
+                    song.theDescription = ""
+                }
+                
+                self.songs.append(song)
+            }
+            self.tableView.reloadData()
+        })
     }
     
 }

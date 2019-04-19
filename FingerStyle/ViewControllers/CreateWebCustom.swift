@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Firebase
 class CreateWebCustom: UIViewController, UITextFieldDelegate{
     
     var artistName = String()
@@ -19,6 +19,7 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
     var inputText = UITextField()
     var doneButton = UIButton()
     var label2 = UILabel()
+    var customButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,7 +93,7 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
         doneButton.alpha = 0.0
         self.view.addSubview(doneButton)
         
-        let customButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 100, y: doneButton.frame.maxY + 20, width: 200, height: 40))
+        customButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 100, y: doneButton.frame.maxY + 20, width: 200, height: 40))
         customButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         customButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20.0)
         
@@ -138,9 +139,83 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
     @objc func donePressed()
     {
         print("done Pressed")
+        done()
+        
+    }
+    func done()
+    {
+        if let text = inputText.text
+        {
+            if(text != "")
+            {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.inputText.removeFromSuperview()
+                    self.doneButton.removeFromSuperview()
+                    self.label2.text = text
+                    self.customButton.setTitle("Submit", for: .normal)
+                    self.customButton.frame = CGRect(x: self.view.bounds.width / 2 - 100, y: self.label2.frame.maxY + 10, width: 200, height: 40)
+                    })
+                
+            }
+        }
     }
     @objc func customPressed()
     {
         print("Custom Pressed")
+        if(customButton.titleLabel?.text == "Custom Song")
+        {
+            let controller = CreateSongVC()
+            controller.artistName = artistName
+            controller.songName = songName
+            controller.difficulty = difficulty
+            controller.theDescription = theDescription
+            self.present(controller, animated: false, completion: nil)
+        }
+        else if (customButton.titleLabel?.text == "Go Back"){
+            perform(#selector(backPressed))
+            
+        }else{
+            submitPressed()
+        }
+    }
+    func submitPressed()
+    {
+        label2.text = "Thank you!"
+        customButton.setTitle("Go Back", for: .normal)
+        if let text = inputText.text
+        {
+            let ref2 = Database.database().reference().childByAutoId().key! + songName
+
+            let userDefaults = Foundation.UserDefaults.standard
+            var value = userDefaults.stringArray(forKey: "SavedLinks") ?? [String]()
+            if(value.count == 0)
+            {
+                userDefaults.set([ref2], forKey: "SavedLinks")
+                saveSongLinkToPhone(name: ref2)
+            }else{
+                value.append(ref2)
+                userDefaults.set(value, forKey: "SavedLinks")
+                saveSongLinkToPhone(name: ref2)
+            }
+            let ref = Database.database().reference().child("Links").child(ref2)
+            ref.child("theUid").setValue(ref2)
+            ref.child("theSongName").setValue(songName)
+            ref.child("theArtist").setValue(artistName)
+            ref.child("theDifficulty").setValue(difficulty)
+            ref.child("theDescription").setValue(theDescription)
+            ref.child("theLink").setValue(text)
+        }
+    }
+    
+    func saveSongLinkToPhone(name: String)
+    {
+        let userDefaults = Foundation.UserDefaults.standard
+        var arr = [String]()
+        arr.append(songName)
+        arr.append(artistName)
+        arr.append(difficulty)
+        arr.append(inputText.text!)
+        arr.append(theDescription)
+        userDefaults.set(arr, forKey: name)
     }
 }

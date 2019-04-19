@@ -473,7 +473,7 @@ var tab = ("""
         newString = newString.replacingOccurrences(of: "--", with: "-")
         newString = newString.replacingOccurrences(of: "/", with: "-")
         newString = newString.replacingOccurrences(of: "~", with: "-")
-        //newString = newString.replacingOccurrences(of: "-", with: "   ")
+        newString = newString.replacingOccurrences(of: "    ", with: "")
         return newString
     }
     

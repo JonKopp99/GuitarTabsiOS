@@ -29,6 +29,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let label = UILabel(frame: CGRect(x:30, y: navView.bounds.height / 2 - 10, width: navView.bounds.width - 60, height: 50))
         createTempSong()
+//        /addSpacing()
         self.view.backgroundColor = .white
         tableView.register(songTableViewCell.self, forCellReuseIdentifier: "songCell")
         tableView.delegate = self
@@ -157,6 +158,7 @@ class CreateViewDone: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     @objc func yesPressed()
     {
+        //Upload Song
         uploadView.removeFromSuperview()
         let ref2 = Database.database().reference().childByAutoId().key! + songName
         let userDefaults = Foundation.UserDefaults.standard
