@@ -17,18 +17,9 @@ class SongLinkVC:UIViewController{
     var difficulty = String()
     var theUid = String()
     var theLink = String()
-    var currentTab = IndexPath()
-    var timerLine = UIView()
-    var playButton = UIButton()
-    var speedMultiplier = CGFloat()
-    var playing = Bool()
-    var theBPM = CGFloat()
-    var tempo = CGFloat()
     var landScape = Bool()
     var navView = UIView()
-    var loopButton = UIButton()
     var infobutton = UIButton()
-    var loop = Bool()
     var theDescription = String()
     var infoView = UIView()
     var discover = Bool()
@@ -98,51 +89,9 @@ class SongLinkVC:UIViewController{
         navView.addSubview(infobutton)
         self.view.addSubview(navView)
         
-        
-        timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
-        timerLine.frame = CGRect(x: 10, y: 30, width: 5, height: 145)
-        //Add Line here
-        
-        speedMultiplier = 1
-        playing = false
-        currentTab = IndexPath(row: 0, section: 0)
-        
-        let buttonView = UIView()
-        buttonView.frame = CGRect(x: 0, y: self.view.bounds.height - 50, width: self.view.bounds.width, height: 50)
-        buttonView.backgroundColor = .clear
-        
-        playButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 25, y: -15, width: 50, height: 50))
-        playButton.setImage(#imageLiteral(resourceName: "icons8-circled-play-50 (1)"), for: .normal)
-        playButton.addTarget(self, action:#selector(self.playPressed), for: .touchUpInside)
-        buttonView.addSubview(playButton)
-        
-        let slowDownButton = UIButton(frame: CGRect(x: playButton.frame.minX - 40, y: -5, width: 35, height: 35))
-        slowDownButton.setImage(#imageLiteral(resourceName: "icons8-rewind-50"), for: .normal)
-        slowDownButton.addTarget(self, action:#selector(self.slowDown), for: .touchUpInside)
-        buttonView.addSubview(slowDownButton)
-        
-        let speedUpButton = UIButton(frame: CGRect(x: playButton.frame.maxX + 5, y: -5, width: 35, height: 35))
-        speedUpButton.setImage(#imageLiteral(resourceName: "icons8-fast-forward-50"), for: .normal)
-        speedUpButton.addTarget(self, action:#selector(self.speedUP), for: .touchUpInside)
-        buttonView.addSubview(speedUpButton)
-        
-        let resetButton = UIButton(frame: CGRect(x: slowDownButton.frame.minX - 40, y: -5, width: 35, height: 35))
-        resetButton.setImage(#imageLiteral(resourceName: "speedReset"), for: .normal)
-        resetButton.addTarget(self, action:#selector(self.resetPressed), for: .touchUpInside)
-        buttonView.addSubview(resetButton)
-        
-        loopButton = UIButton(frame: CGRect(x: speedUpButton.frame.maxX + 5, y: -5, width: 35, height: 35))
-        loopButton.setImage(#imageLiteral(resourceName: "icons8-repeat-50 (1)"), for: .normal)
-        loopButton.addTarget(self, action:#selector(self.loopPressed), for: .touchUpInside)
-        buttonView.addSubview(loopButton)
-        
-        
-        
-        webView.frame = CGRect(x: 0, y: navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height + buttonView.frame.height))
+        webView.frame = CGRect(x: 0, y: navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
         loadTab()
         self.view.addSubview(webView)
-        
-        self.view.addSubview(buttonView)
         
     }
     
@@ -157,7 +106,7 @@ class SongLinkVC:UIViewController{
     {
         UIView.animate(withDuration: 0.4, animations: {
             self.navView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.1)
-            
+            self.webView.frame = CGRect(x: 0, y: self.navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (self.navView.frame.height))
         }, completion: { (finished: Bool) in
             self.infobutton.addTarget(self, action:#selector(self.swipeDown), for: .touchUpInside)
             self.infoView.removeFromSuperview()
@@ -168,7 +117,7 @@ class SongLinkVC:UIViewController{
     {
         UIView.animate(withDuration: 0.4, animations: {
             self.navView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.2)
-            
+            self.webView.frame = CGRect(x: 0, y: (self.view.bounds.height * 0.2), width: self.view.bounds.width, height: self.view.bounds.height - (self.view.bounds.height * 0.2 + 50))
             
         }, completion: { (finished: Bool) in
             self.infobutton.addTarget(self, action:#selector(self.swipeUp), for: .touchUpInside)
@@ -308,101 +257,15 @@ class SongLinkVC:UIViewController{
         self.present(controller, animated: false, completion: nil)
     }
     
-    @objc func playPressed()
-    {
-        if(playing == false)
-        {
-            scheduledTimerWithTimeInterval()
-            playButton.setImage(#imageLiteral(resourceName: "icons8-pause-button-50 (1)"), for: .normal)
-            playing = true
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.view = UIView()
+        self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        if UIDevice.current.orientation.isLandscape {
+            landScape = true
         }else{
-            playButton.setImage(#imageLiteral(resourceName: "icons8-play-50"), for: .normal)
-            playing = false
+            landScape = false
         }
+        self.viewDidLoad()
         
     }
-    
-    func scheduledTimerWithTimeInterval(){
-        // Scheduling timer to Call the function "drawBack" with the interval of 1 seconds
-        var timer = Timer()
-        self.timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.8)
-        timer = Timer.scheduledTimer(withTimeInterval: 0.009, repeats: true, block: {_ in
-            if(self.playing)
-            {
-                self.drawTimer()
-            }else
-            {
-                self.timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
-                timer.invalidate()
-                return
-            }
-//            if(self.currentTab.row>=self.tableView.numberOfRows(inSection: 0)){
-//                if(self.loop == false)
-//                {
-//                    self.playing = false
-//                    self.playButton.setImage(#imageLiteral(resourceName: "icons8-play-50"), for: .normal)
-//                    self.timerLine.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.2)
-//                    timer.invalidate()
-//                }
-//
-//
-//                self.currentTab = IndexPath(row: 0, section: 0)
-//                self.timerLine.removeFromSuperview()
-//
-//                self.timerLine.frame = CGRect(x: 10, y: 30, width: 0, height: 145)
-//                return
-//            }
-            
-        })
-    }
-    
-    @objc func drawTimer()
-    {
-        timerLine.removeFromSuperview()
-        if(timerLine.frame.minX <= self.view.bounds.width - 20)
-        {
-            timerLine.frame = CGRect(x: timerLine.frame.minX + speedMultiplier, y: timerLine.frame.minY, width: 5, height: 145)
-        }else{
-            timerLine.frame = CGRect(x: 10, y: timerLine.frame.minY + 170, width: 5, height: 145)
-            currentTab = IndexPath(row: currentTab.row + 1, section: 0)
-//            if(currentTab.row < tableView.numberOfRows(inSection: 0))
-//            {
-//                tableView.scrollToRow(at: currentTab, at: .top, animated: true)
-//            }
-            
-        }
-        
-    }
-    
-    @objc func slowDown()
-    {
-        if(speedMultiplier - 0.25 > 0)
-        {
-            speedMultiplier = speedMultiplier - 0.25
-        }
-    }
-    @objc func loopPressed()
-    {
-        if(loop == false)
-        {
-            loopButton.setImage(loopButton.currentImage?.mask(with: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)), for: .normal)
-            loop = true
-        }else{
-            loopButton.setImage(#imageLiteral(resourceName: "icons8-repeat-50 (1)"), for: .normal)
-            loop = false
-        }
-    }
-    @objc func speedUP()
-    {
-        if(speedMultiplier + 0.25 < 5)
-        {
-            speedMultiplier = speedMultiplier + 0.25
-        }
-    }
-    
-    @objc func resetPressed()
-    {
-        speedMultiplier = 1
-    }
-    
 }

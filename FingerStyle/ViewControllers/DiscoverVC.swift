@@ -107,11 +107,17 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return songs.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell") as! savedCellTableViewCell
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell") as! savedCellTableViewCell
+        let cell = savedCellTableViewCell()
         cell.nameOfArtist.text = songs[indexPath.row].nameOfArtist
         cell.nameOfSong.text = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
         cell.difficulty.text = songs[indexPath.row].difficulty
-        
+        if(songs[indexPath.row].link == true)
+        {
+            cell.link = true
+        }else{
+            cell.link = false
+        }
         cell.nameOfArtist.sizeToFit()
         cell.nameOfSong.sizeToFit()
         cell.difficulty.sizeToFit()

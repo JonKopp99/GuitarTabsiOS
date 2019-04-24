@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+
 class CreateWebCustom: UIViewController, UITextFieldDelegate{
     
     var artistName = String()
@@ -76,6 +77,7 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
         inputText.layer.borderWidth = 1.5
         inputText.placeholder = "Enter song link:"
         inputText.returnKeyType = UIReturnKeyType.done
+        inputText.adjustsFontSizeToFitWidth = false
         inputText.delegate = self
         self.view.addSubview(inputText)
         
@@ -126,12 +128,9 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
         textField.resignFirstResponder()
         return true
     }
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
-            return true
-        }
-        return super.canPerformAction(action, withSender: sender)
-    }
+    
+    
+    
     @objc func backPressed()
     {
         self.dismiss(animated: false, completion: nil)
@@ -217,5 +216,11 @@ class CreateWebCustom: UIViewController, UITextFieldDelegate{
         arr.append(inputText.text!)
         arr.append(theDescription)
         userDefaults.set(arr, forKey: name)
+    }
+}
+
+extension UITextField{
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return action == #selector(UIResponderStandardEditActions.paste)
     }
 }
