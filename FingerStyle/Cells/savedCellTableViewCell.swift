@@ -13,7 +13,8 @@ class savedCellTableViewCell: UITableViewCell{
     var nameOfSong = UILabel()
     var nameOfArtist = UILabel()
     var difficulty = UILabel()
-    
+    var link = Bool()
+    var b = UIImageView()
     override func layoutSubviews() {
         
         
@@ -21,6 +22,16 @@ class savedCellTableViewCell: UITableViewCell{
         nameOfArtist.frame = CGRect(x: 15, y: nameOfSong.frame.maxY, width: frame.width - 30, height: 50)
         difficulty.frame = CGRect(x: 15, y: nameOfArtist.frame.maxY, width: frame.width - 30, height: 50)
         
+        
+        b.frame = CGRect(x: frame.width - 40 , y: frame.height / 2 - 17.5, width: 35, height: 35)
+        b.image = #imageLiteral(resourceName: "icons8-circled-play-50 (1)")
+        b.contentMode = .scaleAspectFit
+        addSubview(b)
+        b.alpha = 0.0
+        if(link == false)
+        {
+            b.alpha = 1.0
+        }
         nameOfSong.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         nameOfArtist.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         difficulty.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
