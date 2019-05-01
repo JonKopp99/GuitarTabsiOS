@@ -510,12 +510,3 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     }
 }
 
-extension UITextField {
-    
-    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(UIResponderStandardEditActions.paste) || action == #selector(UIResponderStandardEditActions.copy){
-            return false
-        }
-        return true
-    }
-}

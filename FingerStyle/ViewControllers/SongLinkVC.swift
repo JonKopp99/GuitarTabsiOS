@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 import WebKit
 
-class SongLinkVC:UIViewController{
+class SongLinkVC:UIViewController, UIScrollViewDelegate{
     var songName = String()
     var artistName = String()
     var difficulty = String()
@@ -25,9 +25,10 @@ class SongLinkVC:UIViewController{
     var discover = Bool()
     var admin = Bool()
     
-    var webView = WKWebView()
-    
-    
+    var webView = UIScrollView()
+    var webSiteView = WKWebView()
+    var isImage = true
+    var imageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,18 +91,44 @@ class SongLinkVC:UIViewController{
         self.view.addSubview(navView)
         
         webView.frame = CGRect(x: 0, y: navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
-        loadTab()
-        self.view.addSubview(webView)
         
+        self.view.addSubview(webView)
+        if(self.isImage == false)
+        {
+            loadTab()
+            webSiteView.frame = webView.frame
+            self.webView.addSubview(webSiteView)
+        }else{
+            webView.delegate = self
+            webView.minimumZoomScale = 1.0
+            webView.maximumZoomScale = 6.0
+            loadImage()
+        }
     }
     
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        
+        return imageView
+    }
     func loadTab()
     {
         let url = NSURL(string: theLink)
         let request = NSURLRequest(url: url! as URL)
-        webView.load(request as URLRequest)
+        webSiteView.load(request as URLRequest)
         
     }
+    
+    func loadImage()
+    {
+        imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
+        imageView.downloaded(from: theLink)
+        imageView.contentMode = .scaleAspectFit
+        //imageView.frame.origin.y = -self.view.bounds.height * 0.1
+        self.webView.addSubview(imageView)
+        
+    }
+    
     @objc func swipeUp()
     {
         UIView.animate(withDuration: 0.4, animations: {
@@ -190,7 +217,7 @@ class SongLinkVC:UIViewController{
     @objc func deletePressed()
     {
         let userDefaults = Foundation.UserDefaults.standard
-        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        var value = userDefaults.stringArray(forKey: "SavedLinks") ?? [String]()
         var ctr = 0
         for i in value
         {
@@ -198,7 +225,7 @@ class SongLinkVC:UIViewController{
             {
                 userDefaults.set([], forKey: i)
                 value.remove(at: ctr)
-                userDefaults.set(value, forKey: "SavedSongs")
+                userDefaults.set(value, forKey: "SavedLinks")
             }
             ctr += 1
         }
@@ -227,15 +254,15 @@ class SongLinkVC:UIViewController{
     {
         let ref2 = Database.database().reference().childByAutoId().key! + songName
         let userDefaults = Foundation.UserDefaults.standard
-        var value = userDefaults.stringArray(forKey: "SavedSongs") ?? [String]()
+        var value = userDefaults.stringArray(forKey: "SavedLinks") ?? [String]()
         //userDefaults.set(ref2, forKey: "Saved")
         if(value.count == 0)
         {
-            userDefaults.set([ref2], forKey: "SavedSongs")
+            userDefaults.set([ref2], forKey: "SavedLinks")
             saveSong(key: ref2)
         }else{
             value.append(ref2)
-            userDefaults.set(value, forKey: "SavedSongs")
+            userDefaults.set(value, forKey: "SavedLinks")
             saveSong(key: ref2)
         }
     }
@@ -250,6 +277,7 @@ class SongLinkVC:UIViewController{
         arr.append(songWithoutQuotes)
         arr.append(artistName)
         arr.append(difficulty)
+        arr.append(theLink)
         arr.append(theDescription)
         userDefaults.set(arr, forKey: key)
         
@@ -260,6 +288,7 @@ class SongLinkVC:UIViewController{
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         self.view = UIView()
         self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        self.imageView = UIImageView() 
         if UIDevice.current.orientation.isLandscape {
             landScape = true
         }else{

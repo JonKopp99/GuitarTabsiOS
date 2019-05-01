@@ -19,8 +19,8 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let userDefaults = Foundation.UserDefaults.standard
-//        userDefaults.set([], forKey: "SavedSongs")
+        //let userDefaults = Foundation.UserDefaults.standard
+        //userDefaults.set([], forKey: "SavedSongs")
         TabBarVC.currentSelected = "Saved"
         navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
@@ -39,7 +39,6 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         
         
         
-        loadTempSongs()
         loadSongs()
         
         self.view.backgroundColor = .white
@@ -118,11 +117,16 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         return songs.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell") as! savedCellTableViewCell
+        let cell = savedCellTableViewCell()
         cell.nameOfArtist.text = songs[indexPath.row].nameOfArtist
         cell.nameOfSong.text = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
         cell.difficulty.text = songs[indexPath.row].difficulty
-        
+        if(songs[indexPath.row].link == true)
+        {
+            cell.link = true
+        }else{
+            cell.link = false
+        }
         cell.nameOfArtist.sizeToFit()
         cell.nameOfSong.sizeToFit()
         cell.difficulty.sizeToFit()
@@ -155,13 +159,18 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 controller.fullSong = (songs[indexPath.row].songTab)
                 controller.theDescription = songs[indexPath.row].theDescription!
                 self.present(controller, animated: false, completion: nil)
+            }else{
+                let controller = SongLinkVC()
+                controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
+                controller.artistName = (songs[indexPath.row].nameOfArtist)
+                controller.difficulty = (songs[indexPath.row].difficulty)
+                controller.theUid = (songs[indexPath.row].uid)
+                controller.theDescription = songs[indexPath.row].theDescription!
+                controller.theLink = songs[indexPath.row].theLink!
+                print(songs[indexPath.row].theLink!)
+                self.present(controller, animated: false, completion: nil)
             }
         }
-    }
-    
-    func loadTempSongs()
-    {
-        
     }
     
     func loadSongs()
