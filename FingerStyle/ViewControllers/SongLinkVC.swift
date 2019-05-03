@@ -95,10 +95,12 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         self.view.addSubview(webView)
         if(self.isImage == false)
         {
+            
             loadTab()
             webSiteView.frame = webView.frame
             self.webView.addSubview(webSiteView)
         }else{
+            NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded), name: NSNotification.Name(rawValue: "imageDownloaded"), object: nil)
             webView.delegate = self
             webView.minimumZoomScale = 1.0
             webView.maximumZoomScale = 6.0
@@ -122,13 +124,20 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     {
         imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
-        imageView.downloaded(from: theLink)
-        imageView.contentMode = .scaleAspectFit
-        //imageView.frame.origin.y = -self.view.bounds.height * 0.1
+        DispatchQueue.main.async {
+            self.imageView.downloaded(from: self.theLink, contentMode: .scaleAspectFit)
+        }
         self.webView.addSubview(imageView)
         
     }
     
+    @objc func imageDownloaded()
+    {
+        print("Image finisged downloading!")
+        if let image = imageView.image{
+            print("Image Size: ", image.size)
+        }
+    }
     @objc func swipeUp()
     {
         UIView.animate(withDuration: 0.4, animations: {
