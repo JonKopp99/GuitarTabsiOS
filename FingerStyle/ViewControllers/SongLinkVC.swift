@@ -93,6 +93,8 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         webView.frame = CGRect(x: 0, y: navView.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
         
         self.view.addSubview(webView)
+        
+        //If image we need to dowload else it will be a website view
         if(self.isImage == false)
         {
             
@@ -105,6 +107,24 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
             webView.minimumZoomScale = 1.0
             webView.maximumZoomScale = 6.0
             loadImage()
+        }
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action:#selector(self.swipeRight(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+    }
+    
+    @objc func swipeRight(_ sender: UISwipeGestureRecognizer){
+        let location = (sender.location(in: self.view))
+        if(location.x <= 100)
+        {
+            let animation = CATransition()
+            animation.type = .fade
+            animation.duration = 0.4
+            animation.subtype = .fromLeft
+            self.view.window!.layer.add(animation, forKey: nil)
+            
+            self.dismiss(animated: false, completion: nil)
         }
     }
     
@@ -133,7 +153,7 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     
     @objc func imageDownloaded()
     {
-        print("Image finisged downloading!")
+        print("Image finished downloading!")
         if let image = imageView.image{
             print("Image Size: ", image.size)
         }
@@ -164,7 +184,12 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     
     @objc func backPressed()
     {
-        self.dismiss(animated: true, completion: nil)
+        let animation = CATransition()
+        animation.type = .push
+        animation.subtype = .fromBottom
+        animation.duration = 0.4
+        self.view.window!.layer.add(animation, forKey: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     @objc func infoPressed()
@@ -289,7 +314,11 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         arr.append(theLink)
         arr.append(theDescription)
         userDefaults.set(arr, forKey: key)
-        
+        let animation = CATransition()
+        animation.type = .fade
+        animation.subtype = .fromBottom
+        animation.duration = 0.4
+        self.view.window!.layer.add(animation, forKey: nil)
         let controller = SavedVC()
         self.present(controller, animated: false, completion: nil)
     }
