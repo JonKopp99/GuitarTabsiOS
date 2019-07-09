@@ -1,0 +1,23 @@
+Create and Edit
+
+Have the CreateDone view spacing in the tabs be equal to that of the creation
+
+if ^thats^ done edit view shouldnt take aqay tht last note
+
+
+WHen user submit the link save to user defualts along with the song info stored in a seperate array.
+
+
+
+CHANGE DISCOVER LOADING LINKS to PubliSHED LINKS !!!
+
+
+Update the preview pictures on the app store..
+Edit description to have users can now submit images and website songs.
+
+
+7/9 COMPLETE
+1. Add diffrerent icons for web,image, utube, and custom
+2. When you save a songLink song from the discover inside the defaults add a "type" value
+3. POSSIBLY PDF's
+4. some kind of search/side alphabetical order thingy

@@ -160,6 +160,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 controller.theDescription = songs[indexPath.row].theDescription!
                 controller.discover = true
                 controller.admin = admin
+                controller.type = songs[indexPath.row].theType
                 controller.theLink = songs[indexPath.row].theLink!
                 
                 self.present(controller, animated: true, completion: nil)
@@ -246,6 +247,10 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     song.theDescription = ""
                 }
                 
+                if let type = theValue["theType"]
+                {
+                    song.theType = type
+                }
                 self.songs.append(song)
             }
             self.tableView.reloadData()

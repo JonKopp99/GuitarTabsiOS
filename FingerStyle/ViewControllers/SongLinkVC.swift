@@ -27,11 +27,15 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     
     var webView = UIScrollView()
     var webSiteView = WKWebView()
-    var isImage = true
+    var type: String?
     var imageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //type = "video"
+        if type == nil{
+            type = "web"
+        }
         navView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: self.view.bounds.height * 0.1))
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
@@ -95,18 +99,27 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         self.view.addSubview(webView)
         
         //If image we need to dowload else it will be a website view
-        if(self.isImage == false)
+        if(type == "web")
         {
-            
+            //website
             loadTab()
-            webSiteView.frame = webView.frame
+            webSiteView.frame = CGRect(x: 0, y: self.view.bounds.height * 0.1, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
             self.webView.addSubview(webSiteView)
-        }else{
+        }else if(type == "img"){
+            //image
             NotificationCenter.default.addObserver(self, selector: #selector(imageDownloaded), name: NSNotification.Name(rawValue: "imageDownloaded"), object: nil)
             webView.delegate = self
             webView.minimumZoomScale = 1.0
             webView.maximumZoomScale = 6.0
             loadImage()
+        }else{
+            //video
+            webSiteView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.35)
+            if(landScape){
+                webSiteView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
+            }
+            self.webView.addSubview(webSiteView)
+            loadYoutube(videoID: self.theLink)
         }
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action:#selector(self.swipeRight(_:)))
@@ -131,6 +144,14 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         
         return imageView
+    }
+    func loadYoutube(videoID:String) {
+        // create a custom youtubeURL with the video ID
+        guard
+            let youtubeURL = NSURL(string: "https://www.youtube.com/embed/\(videoID)")
+            else { return }
+        // load your web request
+        webSiteView.load(NSURLRequest(url: youtubeURL as URL) as URLRequest)
     }
     func loadTab()
     {
@@ -324,15 +345,22 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        self.view = UIView()
-        self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        self.imageView = UIImageView() 
         if UIDevice.current.orientation.isLandscape {
             landScape = true
         }else{
             landScape = false
         }
+        
+        //if(type == "img")
+        //{
+            self.view = UIView()
+            self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            self.imageView = UIImageView()
+            self.webView = UIScrollView()
+            
+        //}
         self.viewDidLoad()
+        
         
     }
 }

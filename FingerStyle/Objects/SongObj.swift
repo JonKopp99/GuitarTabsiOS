@@ -19,4 +19,5 @@ class SongObj
     var theDescription: String?
     var link: Bool?
     var theLink: String?
+    var theType: String?
 }
