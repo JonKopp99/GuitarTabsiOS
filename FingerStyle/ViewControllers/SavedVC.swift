@@ -158,7 +158,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 controller.theUid = (songs[indexPath.row].uid)
                 controller.fullSong = (songs[indexPath.row].songTab)
                 controller.theDescription = songs[indexPath.row].theDescription!
-                self.present(controller, animated: false, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }else{
                 let controller = SongLinkVC()
                 controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
@@ -168,7 +168,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 controller.theDescription = songs[indexPath.row].theDescription!
                 controller.theLink = songs[indexPath.row].theLink!
                 print(songs[indexPath.row].theLink!)
-                self.present(controller, animated: false, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }
         }
     }

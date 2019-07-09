@@ -17,4 +17,6 @@ class SongObj
     var uid: String!
     var songTab = SongTabObj()
     var theDescription: String?
+    var link: Bool?
+    var theLink: String?
 }

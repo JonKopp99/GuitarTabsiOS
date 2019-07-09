@@ -149,7 +149,8 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 controller.theDescription = songs[indexPath.row].theDescription!
                 controller.discover = true
                 controller.admin = admin
-                self.present(controller, animated: false, completion: nil)
+                
+                self.present(controller, animated: true, completion: nil)
             }else{
                 let controller = SongLinkVC()
                 controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
@@ -160,7 +161,8 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 controller.discover = true
                 controller.admin = admin
                 controller.theLink = songs[indexPath.row].theLink!
-                self.present(controller, animated: false, completion: nil)
+                
+                self.present(controller, animated: true, completion: nil)
             }
         }
     }

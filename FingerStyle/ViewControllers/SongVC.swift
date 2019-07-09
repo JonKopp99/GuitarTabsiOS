@@ -145,8 +145,25 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         buttonView.addSubview(loopButton)
         
         self.view.addSubview(buttonView)
-        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action:#selector(self.swipeRight(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
+    
+    @objc func swipeRight(_ sender: UISwipeGestureRecognizer){
+        let location = (sender.location(in: self.tableView))
+        if(location.x <= 100)
+        {
+            let animation = CATransition()
+            animation.type = .fade
+            animation.duration = 0.4
+            animation.subtype = .fromLeft
+            self.view.window!.layer.add(animation, forKey: nil)
+            
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
     @objc func infoPressed()
     {
             infoView.removeFromSuperview()
@@ -249,6 +266,11 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
             ctr += 1
         }
         let controller = SavedVC()
+        let animation = CATransition()
+        animation.type = .fade
+        animation.subtype = .fromBottom
+        animation.duration = 0.4
+        self.view.window!.layer.add(animation, forKey: nil)
         self.present(controller, animated: false, completion: nil)
         //uploadToDB()
     }
@@ -311,6 +333,11 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         arr.append(theDescription)
         userDefaults.set(arr, forKey: key)
         
+        let animation = CATransition()
+        animation.type = .fade
+        animation.subtype = .fromBottom
+        animation.duration = 0.4
+        self.view.window!.layer.add(animation, forKey: nil)
         let controller = SavedVC()
         self.present(controller, animated: false, completion: nil)
     }
@@ -417,7 +444,12 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     
     @objc func backPressed()
     {
-            self.dismiss(animated: true, completion: nil)
+        let animation = CATransition()
+        animation.type = .push
+        animation.subtype = .fromBottom
+        animation.duration = 0.4
+        self.view.window!.layer.add(animation, forKey: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
