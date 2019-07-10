@@ -103,7 +103,7 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         {
             //website
             loadTab()
-            webSiteView.frame = CGRect(x: 0, y: self.view.bounds.height * 0.1, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
+            webSiteView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - (navView.frame.height))
             self.webView.addSubview(webSiteView)
         }else if(type == "img"){
             //image
@@ -131,13 +131,13 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         let location = (sender.location(in: self.view))
         if(location.x <= 100)
         {
-            let animation = CATransition()
-            animation.type = .fade
-            animation.duration = 0.4
-            animation.subtype = .fromLeft
-            self.view.window!.layer.add(animation, forKey: nil)
+//            let animation = CATransition()
+//            animation.type = .fade
+//            animation.duration = 0.4
+//            animation.subtype = .fromLeft
+//            self.view.window!.layer.add(animation, forKey: nil)
             
-            self.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -205,12 +205,13 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
     
     @objc func backPressed()
     {
-        let animation = CATransition()
-        animation.type = .push
-        animation.subtype = .fromBottom
-        animation.duration = 0.4
-        self.view.window!.layer.add(animation, forKey: nil)
-        self.dismiss(animated: false, completion: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.duration = 0.4
+//        animation.subtype = .fromLeft
+//        self.view.window!.layer.add(animation, forKey: nil)
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func infoPressed()
@@ -284,15 +285,20 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
             }
             ctr += 1
         }
-        let controller = SavedVC()
-        self.present(controller, animated: false, completion: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.subtype = .fromBottom
+//        animation.duration = 0.3
+//        self.view.window!.layer.add(animation, forKey: nil)
+        
+        self.dismiss(animated: true, completion: nil)
         //uploadToDB()
     }
     
     @objc func saveAdminPressed()
     {
         let ref2 = Database.database().reference().childByAutoId().key! + songName
-        let ref = Database.database().reference().child("PublishedSongs").child(ref2)
+        let ref = Database.database().reference().child("PublishedLinks").child(ref2)
         
         ref.child("theUid").setValue(ref2)
         var songWithoutQuotes = songName
@@ -302,6 +308,9 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         ref.child("theArtist").setValue(artistName)
         ref.child("theDifficulty").setValue(difficulty)
         ref.child("theDescription").setValue(theDescription)
+        ref.child("theLink").setValue(theLink)
+        ref.child("theType").setValue(type)
+        self.dismiss(animated: false, completion: nil)
         
     }
     
@@ -334,14 +343,19 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
         arr.append(difficulty)
         arr.append(theLink)
         arr.append(theDescription)
+        if let type = type
+        {
+             arr.append(type)
+        }
         userDefaults.set(arr, forKey: key)
-        let animation = CATransition()
-        animation.type = .fade
-        animation.subtype = .fromBottom
-        animation.duration = 0.4
-        self.view.window!.layer.add(animation, forKey: nil)
-        let controller = SavedVC()
-        self.present(controller, animated: false, completion: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.subtype = .fromBottom
+//        animation.duration = 0.3
+//        self.view.window!.layer.add(animation, forKey: nil)
+        //let controller = SavedVC()
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -357,7 +371,7 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
             self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
             self.imageView = UIImageView()
             self.webView = UIScrollView()
-            
+            self.webSiteView = WKWebView()
         //}
         self.viewDidLoad()
         

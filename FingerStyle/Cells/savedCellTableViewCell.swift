@@ -13,10 +13,9 @@ class savedCellTableViewCell: UITableViewCell{
     var nameOfSong = UILabel()
     var nameOfArtist = UILabel()
     var difficulty = UILabel()
-    var link = Bool()
+    var type = String()
     var b = UIImageView()
     override func layoutSubviews() {
-        
         
         nameOfSong.frame = CGRect(x: 15, y: 10, width: frame.width - 30, height: 50)
         nameOfArtist.frame = CGRect(x: 15, y: nameOfSong.frame.maxY, width: frame.width - 30, height: 50)
@@ -24,13 +23,21 @@ class savedCellTableViewCell: UITableViewCell{
         
         
         b.frame = CGRect(x: frame.width - 40 , y: frame.height / 2 - 17.5, width: 35, height: 35)
-        b.image = #imageLiteral(resourceName: "icons8-circled-play-50 (1)")
+        b.image = #imageLiteral(resourceName: "icons8-play-button-48 (1)")
         b.contentMode = .scaleAspectFit
         addSubview(b)
         b.alpha = 0.0
-        if(link == false)
+        if(type == "custom")
         {
             b.alpha = 1.0
+        }else if(type == "video")
+        {
+            b.alpha = 1.0
+            b.image = #imageLiteral(resourceName: "icons8-play-button-48")
+        }else if(type == "img" || type == "web")
+        {
+            b.alpha = 1.0
+            b.image = #imageLiteral(resourceName: "icons8-playlist-48")
         }
         nameOfSong.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         nameOfArtist.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)

@@ -68,6 +68,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.view.addSubview(theTabBar.view)
         self.view.addSubview(tableView)
     }
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
             return .portrait
@@ -112,11 +113,15 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         cell.nameOfArtist.text = songs[indexPath.row].nameOfArtist
         cell.nameOfSong.text = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
         cell.difficulty.text = songs[indexPath.row].difficulty
-        if(songs[indexPath.row].link == true)
+//        if(songs[indexPath.row].link == true)
+//        {
+//            cell.link = true
+//        }else{
+//            cell.link = false
+//        }
+        if let type = songs[indexPath.row].theType
         {
-            cell.link = true
-        }else{
-            cell.link = false
+            cell.type = type
         }
         cell.nameOfArtist.sizeToFit()
         cell.nameOfSong.sizeToFit()
@@ -138,7 +143,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(tableView.cellForRow(at: indexPath) != nil)
         {
-            if(!songs[indexPath.row].link!)
+            if(songs[indexPath.row].theType == "custom")
             {
                 let controller = SongVC()
                 controller.songName = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
@@ -149,6 +154,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 controller.theDescription = songs[indexPath.row].theDescription!
                 controller.discover = true
                 controller.admin = admin
+                
                 
                 self.present(controller, animated: true, completion: nil)
             }else{
@@ -193,7 +199,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 song.nameOfSong = theValue["theSongName"]
                 song.difficulty = theValue["theDifficulty"]
                 song.uid = theValue["theUid"]
-                song.link = false
+                song.theType = "custom"
                 song.songTab.e = theValue["e"]
                 song.songTab.a = theValue["a"]
                 song.songTab.d = theValue["d"]
@@ -253,6 +259,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
                 self.songs.append(song)
             }
+            self.songs.sort(by: { $0.nameOfSong < $1.nameOfSong })
             self.tableView.reloadData()
         })
     }

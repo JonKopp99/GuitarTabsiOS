@@ -45,8 +45,8 @@ class aboutUsVC: UIViewController, UITextViewDelegate {
         
         
         selfie.frame = CGRect(x: self.view.bounds.width/2 - 75, y: self.navView.frame.maxY + 10, width: 150, height: 150)
-        selfie.setImage(#imageLiteral(resourceName: "willThisWork"), for: .normal)
-        selfie.contentMode = .scaleAspectFill
+        selfie.setImage(#imageLiteral(resourceName: "IMG_1966 (1) (1)"), for: .normal)
+        selfie.contentMode = .scaleAspectFit
         selfie.layer.cornerRadius = 75
         selfie.layer.borderWidth = 5
         selfie.clipsToBounds = true
@@ -59,8 +59,8 @@ class aboutUsVC: UIViewController, UITextViewDelegate {
         desctextView.delegate = self
         desctextView.textAlignment = .left
         desctextView.textColor = UIColor.black
-        desctextView.text = "Hi! \nMy name is Jonathan Kopp, i'm an iOS developer and currently a first year student at Make School in San Francisco. FingerStyle is an app that combines two of my biggest passions, guitar and programming. I created this app to help beginner to experienced guitar players master any song they want. Learning guitar can be expensive, difficult, and make you want to quit. FingerStyle was made to make learning a new song as easy as possible. I combined every tool and tip I learned across my guitar journey into this app. I hope you love this app as much as I do!"
-        desctextView.font = UIFont(name: "Avenir-Medium", size: 20)
+        desctextView.text = "Hi!\nMy name is Jonathan Kopp, I am an iOS developer and currently in my last year studying at Make School in San Francisco.\nFingerStyle is an app that combines two of my biggest passions: guitar and programming. I created this app to help beginner to experienced guitar players master any song they want.\nLearning guitar can be expensive, difficult, and make you want to quit. FingerStyle was made to make learning a new song as easy as possible. I combined every tool and tip I learned throughout my guitar journey into this app.\nI hope you love this app as much as I do!"
+        desctextView.font = UIFont(name: "Avenir-Roman", size: 20)
         desctextView.isSelectable = true
         desctextView.layer.cornerRadius = 10
         desctextView.autocorrectionType = .yes

@@ -121,12 +121,12 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         cell.nameOfArtist.text = songs[indexPath.row].nameOfArtist
         cell.nameOfSong.text = ("\"" + (songs[indexPath.row].nameOfSong) + "\"")
         cell.difficulty.text = songs[indexPath.row].difficulty
-        if(songs[indexPath.row].link == true)
-        {
-            cell.link = true
-        }else{
-            cell.link = false
-        }
+//        if(songs[indexPath.row].link == true)
+//        {
+//            cell.link = true
+//        }else{
+//            cell.link = false
+//        }
         cell.nameOfArtist.sizeToFit()
         cell.nameOfSong.sizeToFit()
         cell.difficulty.sizeToFit()
@@ -167,6 +167,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 controller.theUid = (songs[indexPath.row].uid)
                 controller.theDescription = songs[indexPath.row].theDescription!
                 controller.theLink = songs[indexPath.row].theLink!
+                controller.type = songs[indexPath.row].theType
                 print(songs[indexPath.row].theLink!)
                 self.present(controller, animated: true, completion: nil)
             }
@@ -193,6 +194,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 song.nameOfArtist = songInfo[7]
                 song.difficulty = songInfo[8]
                 song.link = false
+                song.theType = "custom"
                 if(songInfo.count == 10)
                 {
                     song.theDescription = songInfo[9]
@@ -228,6 +230,14 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 }else{
                     song.theDescription = ""
                 }
+                if(songInfo.count == 6)
+                {
+                    print("TEST: ", songInfo[5])
+                    song.theType = songInfo[5]
+                }else{
+                    song.theType = "web"
+                }
+                
                 song.uid = i
                 songs.append(song)
                 

@@ -119,7 +119,7 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         buttonView.frame = CGRect(x: 0, y: self.view.bounds.height - 50, width: self.view.bounds.width, height: 50)
         buttonView.backgroundColor = .clear
         
-        playButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 25, y: -15, width: 50, height: 50))
+        playButton = UIButton(frame: CGRect(x: self.view.bounds.width / 2 - 25, y: -10, width: 45, height: 45))
         playButton.setImage(#imageLiteral(resourceName: "icons8-circled-play-50 (1)"), for: .normal)
         playButton.addTarget(self, action:#selector(self.playPressed), for: .touchUpInside)
         buttonView.addSubview(playButton)
@@ -154,13 +154,13 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         let location = (sender.location(in: self.tableView))
         if(location.x <= 100)
         {
-            let animation = CATransition()
-            animation.type = .fade
-            animation.duration = 0.4
-            animation.subtype = .fromLeft
-            self.view.window!.layer.add(animation, forKey: nil)
+//            let animation = CATransition()
+//            animation.type = .fade
+//            animation.duration = 0.3
+//            animation.subtype = .fromLeft
+//            self.view.window!.layer.add(animation, forKey: nil)
             
-            self.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -266,12 +266,12 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
             ctr += 1
         }
         let controller = SavedVC()
-        let animation = CATransition()
-        animation.type = .fade
-        animation.subtype = .fromBottom
-        animation.duration = 0.4
-        self.view.window!.layer.add(animation, forKey: nil)
-        self.present(controller, animated: false, completion: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.subtype = .fromBottom
+//        animation.duration = 0.4
+//        self.view.window!.layer.add(animation, forKey: nil)
+        self.present(controller, animated: true, completion: nil)
         //uploadToDB()
     }
     
@@ -333,13 +333,13 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
         arr.append(theDescription)
         userDefaults.set(arr, forKey: key)
         
-        let animation = CATransition()
-        animation.type = .fade
-        animation.subtype = .fromBottom
-        animation.duration = 0.4
-        self.view.window!.layer.add(animation, forKey: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.subtype = .fromBottom
+//        animation.duration = 0.4
+//        self.view.window!.layer.add(animation, forKey: nil)
         let controller = SavedVC()
-        self.present(controller, animated: false, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
     
     
@@ -444,12 +444,13 @@ class SongVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINa
     
     @objc func backPressed()
     {
-        let animation = CATransition()
-        animation.type = .push
-        animation.subtype = .fromBottom
-        animation.duration = 0.4
-        self.view.window!.layer.add(animation, forKey: nil)
-        self.dismiss(animated: false, completion: nil)
+//        let animation = CATransition()
+//        animation.type = .fade
+//        animation.duration = 0.3
+//        animation.subtype = .fromLeft
+//        self.view.window!.layer.add(animation, forKey: nil)
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -217,8 +217,9 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
 
     @objc func backPressed()
     {
-            let controller = SavedVC()
-            self.present(controller, animated: false, completion: nil)
+            //let controller = SavedVC()
+            self.dismiss(animated: false, completion: nil)
+            //self.present(controller, animated: true, completion: nil)
     }
     @objc func begPressed()
     {
