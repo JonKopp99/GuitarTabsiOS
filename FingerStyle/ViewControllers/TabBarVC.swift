@@ -1,15 +1,13 @@
-//
 //  ViewController.swift
 //  FingerStyle
 //
 //  Created by Jonathan Kopp on 1/7/19.
 //  Copyright © 2019 Jonathan Kopp. All rights reserved.
 //
-
 import UIKit
 
 class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecognizerDelegate{
-
+    
     var tabBar = UIView()
     var tabBarWidth = CGFloat()
     var tabBarHeight = CGFloat()
@@ -39,7 +37,7 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
         //Creates tabbar
         createTabBar()
         
-       
+        
         
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -110,7 +108,7 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
         UIView.animate(withDuration: 0.3, animations: {
             self.tabBar.frame = CGRect(x: -self.view.bounds.width * 0.05, y: self.tabBar.frame.minY, width: self.tabBarWidth, height: self.tabBarHeight)
             self.tabBar.alpha = 1
-            })
+        })
         
         
     }
@@ -125,6 +123,7 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     {
         if(TabBarVC.currentSelected != "Discover")
         {
+            fadeAnimate()
             TabBarVC.currentSelected = "Discover"
             let controller = DiscoverVC()
             self.present(controller, animated: false, completion: nil)
@@ -134,15 +133,17 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     {
         if(TabBarVC.currentSelected != "Saved")
         {
-        let controller = SavedVC()
-        self.present(controller, animated: false, completion: nil)
-        TabBarVC.currentSelected = "Saved"
+            let controller = SavedVC()
+            fadeAnimate()
+            self.present(controller, animated: false, completion: nil)
+            TabBarVC.currentSelected = "Saved"
         }
     }
     @objc func addPressed()
     {
         if(TabBarVC.currentSelected != "Add")
         {
+            fadeAnimate()
             let controller = CreateVC()
             self.present(controller, animated: false, completion: nil)
         }
@@ -152,11 +153,20 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     {
         if(TabBarVC.currentSelected != "Settings")
         {
+            fadeAnimate()
             let controller = SettingsVC()
             self.present(controller, animated: false, completion: nil)
         }
     }
     
+    func fadeAnimate()
+    {
+        let animation = CATransition()
+        animation.type = .fade
+        animation.duration = 0.15
+        animation.subtype = .fromLeft
+        self.view.window!.layer.add(animation, forKey: nil)
+    }
     @objc func swipeRight(_ sender: UISwipeGestureRecognizer)
     {
         UIView.animate(withDuration: 0.3, animations: {
@@ -180,6 +190,5 @@ class TabBarVC: UIViewController, UINavigationControllerDelegate, UIGestureRecog
     {
         return self.currentEndY
     }
-
+    
 }
-

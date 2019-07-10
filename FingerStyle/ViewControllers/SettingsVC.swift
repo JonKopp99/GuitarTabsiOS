@@ -75,7 +75,7 @@ class SettingsVC: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         TabBarVC.currentSelected = "Settings"
-        theTabBar.loadViewIfNeeded()
+        //theTabBar.loadViewIfNeeded()
         self.view.addSubview(theTabBar.view)
         self.addChild(theTabBar)
         

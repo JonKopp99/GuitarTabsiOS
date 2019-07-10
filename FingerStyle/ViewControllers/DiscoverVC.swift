@@ -9,13 +9,17 @@
 import UIKit
 import Firebase
 
-class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate{
+class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, UISearchBarDelegate{
     
     var tableView = UITableView()
     let theTabBar = TabBarVC()
     var songs = [SongObj]()
     var navView = UIView()
     var admin = false //If true view all songs that users have requested to be published.
+    var searchBar = UISearchBar()
+    var searchButton = UIButton()
+    var searchToggle = Bool()
+    var searchSongs = [SongObj]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,7 +27,13 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
         let label = UILabel(frame: CGRect(x:0, y: navView.bounds.height/2-10, width: navView.bounds.width, height: 50))
-        //searchBar.frame = CGRect(x: self.view.bounds.width * 0.2, y: navView.frame.maxY, width: view.bounds.width - self.view.bounds.width * 0.2, height: 40)
+         searchButton = UIButton(frame: CGRect(x: self.view.bounds.width - 50, y: label.frame.minY + 12.5, width: 25, height: 25))
+        searchButton.setImage(#imageLiteral(resourceName: "icons8-search-50 (1)"), for: .normal)
+        searchButton.addTarget(self, action:#selector(self.searchPressed), for: .touchUpInside)
+        navView.addSubview(searchButton)
+        navView.addSubview(label)
+        self.view.addSubview(navView)
+        
         loadTempSongs()
         loadSongs()
         TabBarVC.currentSelected = "Discover"
@@ -34,6 +44,8 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         tableView.frame = CGRect(x: self.view.bounds.width * 0.2, y: navView.frame.maxY, width: self.view.bounds.width - self.view.bounds.width * 0.2, height: self.view.bounds.height - navView.frame.maxY)
         tableView.separatorStyle = .none
         
+        searchBar.frame = CGRect(x: 0, y: navView.frame.height, width: self.view.bounds.width, height: 42)
+        searchBar.delegate = self
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeRight(_:)))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.tableView.addGestureRecognizer(swipeRight)
@@ -57,12 +69,13 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         navView.addSubview(label)
        
         
+        
         self.theTabBar.view.addSubview(navView)
         
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        theTabBar.loadViewIfNeeded()
+        //theTabBar.loadViewIfNeeded()
         self.addChild(theTabBar)
         
         self.view.addSubview(theTabBar.view)
@@ -83,6 +96,64 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return true
     }
     
+    @objc func searchPressed()
+    {
+        if(searchToggle){
+            searchToggle = false
+        }else{
+            searchToggle = true
+        }
+        print(self.tableView.frame.minX)
+        print("Search Pressed")
+        if(searchToggle){
+        UIView.animate(withDuration: 0.4, animations: {
+            self.tableView.frame = CGRect(x: self.tableView.frame.minX, y: self.searchBar.frame.maxY, width: self.tableView.bounds.width, height: self.view.bounds.height - (self.searchBar.frame.maxY))
+            self.view.addSubview(self.searchBar)
+            self.searchButton.setImage(#imageLiteral(resourceName: "icons8-search-50 (1)").mask(with: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), for: .normal)
+            })
+        }else{
+            UIView.animate(withDuration: 0.4, animations: {
+                self.tableView.frame = CGRect(x: self.tableView.frame.minX, y: self.navView.frame.maxY, width: self.tableView.bounds.width, height: self.view.bounds.height - (self.navView.frame.maxY))
+                self.searchBar.removeFromSuperview()
+                self.searchButton.setImage(#imageLiteral(resourceName: "icons8-search-50 (1)"), for: .normal)
+            })
+            self.songs = self.searchSongs
+            tableView.reloadData()
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let theText = searchBar.text?.lowercased()
+        {
+            var newSongAr = [SongObj]()
+            for song in searchSongs{
+                if(song.nameOfArtist.lowercased().contains(theText) || song.nameOfSong.lowercased().contains(theText))
+                {
+                    newSongAr.append(song)
+                }
+            }
+            
+            songs = newSongAr
+            if(theText == "")
+            {
+                songs = searchSongs
+            }
+            tableView.reloadData()
+        }else{
+            songs = searchSongs
+            tableView.reloadData()
+        }
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        searchBar.endEditing(true)
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
+
     @objc func swipeRight(_ sender: UISwipeGestureRecognizer)
     {
         //theTabBar.perform(#selector(theTabBar.swipeRight),with: nil, afterDelay: 0)
@@ -216,6 +287,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
                 
                 self.songs.append(song)
+                self.searchSongs.append(song)
             }
             self.tableView.reloadData()
         })
@@ -224,7 +296,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func loadLinks()
     {
-        var ref = Database.database().reference().child("Links")
+        var ref = Database.database().reference().child("PublishedLinks")
         if(admin)
         {
             ref = Database.database().reference().child("Links")
@@ -258,8 +330,10 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     song.theType = type
                 }
                 self.songs.append(song)
+                self.searchSongs.append(song)
             }
             self.songs.sort(by: { $0.nameOfSong < $1.nameOfSong })
+            self.searchSongs.sort(by: { $0.nameOfSong < $1.nameOfSong })
             self.tableView.reloadData()
         })
     }

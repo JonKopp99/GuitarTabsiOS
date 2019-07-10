@@ -39,7 +39,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         
         
         
-        loadSongs()
+        
         
         self.view.backgroundColor = .white
         tableView.register(savedCellTableViewCell.self, forCellReuseIdentifier: "savedCell")
@@ -79,11 +79,15 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         }
     }
     override func viewDidAppear(_ animated: Bool) {
-        theTabBar.loadViewIfNeeded()
+        
+        
+        //theTabBar.loadViewIfNeeded()
         self.addChild(theTabBar)
 
         self.view.addSubview(theTabBar.view)
         self.view.addSubview(tableView)
+        loadSongs()
+        
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
