@@ -82,6 +82,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
         
         
         //theTabBar.loadViewIfNeeded()
+        songs = []
         self.addChild(theTabBar)
 
         self.view.addSubview(theTabBar.view)
@@ -246,6 +247,7 @@ class SavedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIN
                 songs.append(song)
                 
             }
+            tableView.reloadData()
         }
     }
     

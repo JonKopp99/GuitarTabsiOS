@@ -348,14 +348,8 @@ class SongLinkVC:UIViewController, UIScrollViewDelegate{
              arr.append(type)
         }
         userDefaults.set(arr, forKey: key)
-//        let animation = CATransition()
-//        animation.type = .fade
-//        animation.subtype = .fromBottom
-//        animation.duration = 0.3
-//        self.view.window!.layer.add(animation, forKey: nil)
-        //let controller = SavedVC()
-        
-        self.dismiss(animated: true, completion: nil)
+        let controller = SavedVC()
+        self.present(controller, animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

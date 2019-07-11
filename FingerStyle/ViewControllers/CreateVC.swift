@@ -48,7 +48,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         self.view.addSubview(navView)
         
         let label2 = UILabel(frame: CGRect(x:10, y: navView.bounds.height, width: navView.bounds.width-20, height: 20))
-        label2.text = "Enter songs name & artist name. Then select the difficulty."
+        label2.text = "Enter song's name & artist's name. Then select the difficulty."
         label2.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         label2.font = UIFont(name: "Avenir-Book", size: 20.0)
         label2.textAlignment = .center
@@ -57,7 +57,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         SongTextField.frame = CGRect(x: 50, y: navView.frame.maxY + 30, width: view.bounds.width - 100, height: 50)
         SongTextField.isEnabled = true
         //SongTextField.placeholder = "Song name."
-        SongTextField.attributedPlaceholder = NSAttributedString(string: "Song name.",
+        SongTextField.attributedPlaceholder = NSAttributedString(string: "Song's name.",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
         SongTextField.font = UIFont(name: "Avenir-Book", size: 25)
         SongTextField.autocorrectionType = UITextAutocorrectionType.yes
@@ -90,7 +90,7 @@ class CreateVC: UIViewController, UITextFieldDelegate, UITextViewDelegate{
         ArtistTextField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         ArtistTextField.isEnabled = true
         //ArtistTextField.placeholder = "Artist name."
-        ArtistTextField.attributedPlaceholder = NSAttributedString(string: "Artist name.",
+        ArtistTextField.attributedPlaceholder = NSAttributedString(string: "Artist's name.",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
         ArtistTextField.font = UIFont(name: "Avenir-Book", size: 25)
         ArtistTextField.autocorrectionType = UITextAutocorrectionType.yes
