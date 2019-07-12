@@ -75,10 +75,25 @@ class ContactVC: UIViewController, UITextViewDelegate {
     @objc func contactPressed()
     {
         let url = NSURL(string: "mailto:jonathan.kopp@students.makeschool.com")
-        
+
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
         }
+        
+//        var ctr = 0
+//        while(ctr < 10)
+//        {
+//            let ref2 = Database.database().reference().childByAutoId().key! + "\(ctr)"
+//            let ref = Database.database().reference().child("Links").child(ref2)
+//            ref.child("theUid").setValue(ref2)
+//            ref.child("theSongName").setValue("")
+//            ref.child("theArtist").setValue("")
+//            ref.child("theDifficulty").setValue("")
+//            ref.child("theDescription").setValue("")
+//            ref.child("theLink").setValue("")
+//            ref.child("theType").setValue("")
+//            ctr += 1
+//        }  
     }
     @objc func backPressed()
     {
