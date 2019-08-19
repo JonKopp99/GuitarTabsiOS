@@ -15,7 +15,7 @@ class DiscoverVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     let theTabBar = TabBarVC()
     var songs = [SongObj]()
     var navView = UIView()
-    var admin = false //If true view all songs that users have requested to be published.
+    var admin = true //If true view all songs that users have requested to be published.
     var searchBar = UISearchBar()
     var searchButton = UIButton()
     var searchToggle = Bool()
