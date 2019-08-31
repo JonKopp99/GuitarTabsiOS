@@ -34,6 +34,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
     
     var currentNote = Int()
     var nextbutton = UIButton()
+    var prevbutton = UIButton()
     var doneButton = UIButton()
     var songTable = CreateSongTableVC()
     
@@ -107,7 +108,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         
         
         //eadgbe ebgdae
-        eeLine.frame = CGRect(x: 10, y: navView.frame.maxY + 20, width: self.view.bounds.width-20, height: 2.5)
+        eeLine.frame = CGRect(x: 10, y: navView.frame.maxY + 60, width: self.view.bounds.width-20, height: 2.5)
         eeL.frame = CGRect(x: -10, y: -10, width: 15, height: 20)
         ee.frame = CGRect(x: 5, y: -10, width: eeLine.frame.width - 10, height: 20)
         // e.text = "1 2 3 4 5 6 7 8 9 10"
@@ -235,6 +236,7 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
         bField.removeFromSuperview()
         eeField.removeFromSuperview()
         nextbutton.removeFromSuperview()
+        prevbutton.removeFromSuperview()
         e.text = ""
         a.text = ""
         d.text = ""
@@ -432,6 +434,14 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
             self.view.addSubview(aField)
             self.view.addSubview(eField)
             
+            if(self.currentNote != 0)
+            {
+                prevbutton = UIButton(frame: CGRect(x: eField.frame.minX + 5, y: eeLine.frame.minY - 40, width: 25, height: 25))
+                prevbutton.setImage(#imageLiteral(resourceName: "icons8-arrow-fleftilled-50 copy"), for: .normal)
+                prevbutton.addTarget(self, action:#selector(self.prevPressed), for: .touchUpInside)
+                self.view.addSubview(prevbutton)
+            }
+            
             nextbutton = UIButton(frame: CGRect(x: eField.frame.minX + 5, y: eLine.frame.maxY + 15, width: 25, height: 25))
             nextbutton.setImage(#imageLiteral(resourceName: "icons8-arrow-filled-50"), for: .normal)
             nextbutton.addTarget(self, action:#selector(self.nextPressed), for: .touchUpInside)
@@ -476,7 +486,29 @@ class CreateSongVC: UIViewController, UITextFieldDelegate {
             bField.removeFromSuperview()
             eeField.removeFromSuperview()
             nextbutton.removeFromSuperview()
+            prevbutton.removeFromSuperview()
             
+            textViews()
+        }
+    }
+    @objc func prevPressed()
+    {
+        
+        if(currentNote<getNotesPerLine() - 1)
+        {
+            //Look what addNotes does and reverse what it does
+            addNotes()
+            
+            currentNote -= 1
+            
+            eField.removeFromSuperview()
+            aField.removeFromSuperview()
+            dField.removeFromSuperview()
+            gField.removeFromSuperview()
+            bField.removeFromSuperview()
+            eeField.removeFromSuperview()
+            nextbutton.removeFromSuperview()
+            prevbutton.removeFromSuperview()
             
             textViews()
         }
